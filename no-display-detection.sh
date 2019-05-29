@@ -12,7 +12,7 @@ cd /home/samson/install_yolo/AlexeyAB/darknet
 ##slowest
 #./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-h264, width=1920, height=1080, framerate=10/1, streamformat=byte-stream !  omxh264dec ! videoconvert ! appsink sync=false async=false" --thresh 0.4
 
-
+##jpegdec > nvjpegdec
 ./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video0 ! image/jpeg, width=1920, height=1080, framerate=30/1 ! jpegparse ! jpegdec ! videoscale ! videoconvert ! tee name=t t.! appsink sync=false async=false" -dont_show -mjpeg_port 8090 -json_port 8070 -map
 
 

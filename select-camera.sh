@@ -181,8 +181,9 @@ do
 
 	end_num=$(( ${#video_camera_array[@]}-1 ))
 
-	printf "[0-${end_num}]\n"	
-	read -n1 camera_num	
+	#printf "[0-${end_num}]\n"	
+
+	read -p "[0-${end_num}]: " -n1 camera_num	
 
 	case $camera_num in
 		$'\e') 
@@ -231,11 +232,15 @@ case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 	;;
 
 	"MJPG")
-		v4l2src_pipeline_str+="jpegparse ! jpegdec ! videoscale ! "
+		##jpegdec > nvjpegdec
+		v4l2src_pipeline_str+="jpegparse ! nvjpegdec ! videoscale ! "
 	;;
 
 	"H264")
-		v4l2src_pipeline_str+="omxh264dec ! "
+		# Jetson Nano    enable-low-outbuffer=1 
+		# Jetson Nano max perf   disable-dvfs=1
+		v4l2src_pipeline_str+="omxh264dec enable-low-outbuffer=1  disable-dvfs=1 ! "
+		#v4l2src_pipeline_str+="nvv4l2decoder ! "
 	;;	
 
 esac
@@ -254,7 +259,7 @@ case ${show_result_onscreen} in
 	;;
 
 	"1")
-		darknet_police_str+="--thresh 0.4"
+		darknet_police_str+="-thresh 0.4"
 	;;
 
 esac
@@ -262,35 +267,124 @@ esac
 printf "$darknet_police_str \n\n";
 
 
-show_result_onscreen="-1"
+select_function="-1"
 execute_str=""
 
-while  ! [[ ("$show_result_onscreen" -ge 0) && ("$show_result_onscreen" -lt 2) ]];
+printf "\n"
+
+myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | tr '\n' '|' )
+
+regex=^[0-9]+$
+
+while  ! [[ ( "${select_function}" =~ ${regex} )  ]];
 do
 
-	printf "\nFunctions: 0. Display Device details\n"
-	printf "\nFunctions: 1. GUI DEMO Display\n"
-	printf "\nFunctions: 2. Darknet YoloV3-Police Normal (Require GUI X11)\n"
-	printf "\nFunctions: 3. Darknet YoloV3-Police NO Display MJPG http://:8090\n"
-	printf "\nFunctions: 4. Darknet YoloV3-Tiny Normal (Require GUI X11)\n"
-	printf "\nFunctions: 5. Darknet YoloV3-Tiny NO Display MJPG http://:8090\n"
+#	printf "0. Select another Device\n"
+	printf "\nFunctions: \n"
+	printf "1. Display Device details\n"
+	printf "\x1b[;33;1m"
+	printf "2. GUI DEMO Display - HDMI\n"
+	printf "\x1b[;31;1m" 
+	printf "3. Darknet YoloV3-Police Normal (Require GUI X11)\n"
+	printf "4. Darknet YoloV3-Police NO Display MJPG http://$myIPAddress:8090\n"
+	printf "\x1b[0;m"	
+	printf "5. Darknet YoloV3-Tiny Normal (Require GUI X11)\n"
+	printf "\x1b[;36;1;3m"
+	printf "6. Darknet YoloV3-Tiny NO Display MJPG http://$myIPAddress:8090\n"
+	printf "\x1b[0;m"	
 
 	
-	read -n1 show_result_onscreen	
+	read -n1 select_function
 
-	case $show_result_onscreen in
+	case $select_function in
 		$'\e') 
 			printf "\n\nEXIT \n\n"
 			exit 0
 			break
 		;;
 
-		0)
+		1)
 			clear
-			execute_str="v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} --list-formats-ext -all"
+			execute_str="v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} --list-formats-ext --all"
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
+			select_function=-1
+			continue
 		;;
+
+		2)
+			clear
+			##nvoverlaysink	##fullscreen, fast
+			##nveglglessink	##non fullscreen, slow
+			##nv3dsink
+			##nvvideosink
+			##xvimagesink
+			v4l2src_display_str=${v4l2src_pipeline_str//appsink/  nvvidconv ! 'video/x-raw\(memory:NVMM\), format=I420,  framerate=30/1' ! nvoverlaysink}
+			execute_str="gst-launch-1.0 $v4l2src_display_str "
+			printf "\nDebug: $execute_str\n"
+			eval $execute_str
+			continue
+		;;
+
+		3)
+			clear
+			cd /home/samson/install_yolo/AlexeyAB/darknet
+
+			#needto remove nvjpeg
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
+
+			##change to 15fps
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//30/15}
+
+			execute_str="$darknet_police_str \"$v4l2src_pipeline_str\" -thresh 0.4"
+			printf "\nDebug: $execute_str\n"
+			eval $execute_str
+			continue
+		;;
+
+		4)
+			clear
+			cd /home/samson/install_yolo/AlexeyAB/darknet
+			#needto remove nvjpeg
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
+
+			execute_str="$darknet_police_str \"$v4l2src_pipeline_str\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+
+			printf "\nDebug: $execute_str\n"
+			eval $execute_str
+			continue
+		;;		
+
+		5)
+			clear
+			cd /home/samson/install_yolo/AlexeyAB/darknet
+			
+			#needto remove nvjpeg
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
+
+			##change to 15fps
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//30/15}
+
+			execute_str="$darknet_coco_str \"$v4l2src_pipeline_str\" -thresh 0.4"
+			printf "\nDebug: $execute_str\n"
+			eval $execute_str
+			continue
+		;;
+
+		6)
+			clear
+			cd /home/samson/install_yolo/AlexeyAB/darknet
+
+			#needto remove nvjpeg
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
+
+
+			execute_str="$darknet_coco_str \"$v4l2src_pipeline_str\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+			printf "\nDebug: $execute_str\n"
+			eval $execute_str
+			continue
+		;;	
+
 	esac	
 
 
@@ -301,14 +395,14 @@ done
 
 #"v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! tee name=t   t. !  appsink sync=false async=false" -dont_show -mjpeg_port 8090 -json_port 8070 -map
 
-#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! image/jpeg, width=1920, height=1080, framerate=10/1 ! jpegparse ! jpegdec ! videoscale ! videoconvert ! appsink sync=false async=false" --thresh 0.4
+#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! image/jpeg, width=1920, height=1080, framerate=10/1 ! jpegparse ! jpegdec ! videoscale ! videoconvert ! appsink sync=false async=false" -thresh 0.4
 
 
-#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-h264, width=1920, height=1080, framerate=10/1, streamformat=byte-stream !  omxh264dec ! videoconvert ! appsink sync=false async=false" --thresh 0.4
+#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-h264, width=1920, height=1080, framerate=10/1, streamformat=byte-stream !  omxh264dec ! videoconvert ! appsink sync=false async=false" -thresh 0.4
 
 cd /home/samson/install_yolo/AlexeyAB/darknet
 
 
-eval $darknet_police_str
+#eval $darknet_police_str
 
 #nohup command &>/dev/null &
