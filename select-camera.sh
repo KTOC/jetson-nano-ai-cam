@@ -40,6 +40,12 @@ do
 	#get Name
 	VIDEO_CAMERA_INPUTS[$i,1]=$(v4l2-ctl --device=$this_device_id --all | grep "Card.*type" | cut -d ' ' -f 8-)
 
+	#Rasperri pi camera
+	if [[ $(v4l2-ctl --device=$i --list-formats-ext --list-formats | awk '/RG10'/ | wc -l ) > 0 ]]; 
+	then
+		VIDEO_CAMERA_INPUTS[$i,2]="RG10"
+	fi
+
 	if [[ $(v4l2-ctl --device=$this_device_id --list-formats-ext --list-formats | awk '/YUYV'/ | wc -l ) > 0 ]];
 	then
 		VIDEO_CAMERA_INPUTS[$i,2]="YUYV"
@@ -55,14 +61,11 @@ do
 		VIDEO_CAMERA_INPUTS[$i,2]="H264"
 	fi
 
-
 	#get Width
 	#VIDEO_CAMERA_INPUTS[$i,4]=$(v4l2-ctl --device=$this_device_id --all | grep "Width\/Height" | cut -d ' ' -f 8- | cut -d '/' -f 1)
 
 	#get Height
 	#VIDEO_CAMERA_INPUTS[$i,5]=$(v4l2-ctl --device=$this_device_id --all | grep "Width\/Height" | cut -d ' ' -f 8- | cut -d '/' -f 2)
-
-
 
 
 
@@ -121,7 +124,7 @@ do
 		##printf  "$this_fps_string"
 
 		if [[ $this_fps_string ==  *"30.000 fps"* ]]; then
-			printf "yes\n"
+			#printf "yes\n"
 			framerate=30
 			break	##break loop, as it is supported, not need find another one
 		else
@@ -205,7 +208,6 @@ darknet_coco_str="./darknet detector demo ./cfg/coco.data ./cfg/yolov3-tiny.cfg 
 v4l2src_pipeline_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} do-timestamp=true ! "
 
 
-
 case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 
 	"YUYV")
@@ -227,26 +229,33 @@ v4l2src_pipeline_str+="width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VID
 
 case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 
+
+	"RG10")
+		#onboard camera completely different
+		v4l2src_pipeline_str="nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=(int)1640, height=(int)1232, format=(string)NV12, framerate=(fraction)30/1' ! nvvidconv flip-method=2 ! 'video/x-raw, format=(string)BGRx' ! videoconvert ! 'video/x-raw, format=(string)BGR' ! tee name=t  t. !"
+	;;
+
 	"YUYV")
-		printf ""
+		
+		v4l2src_pipeline_str+="videoconvert ! tee name=t  t. !"
 	;;
 
 	"MJPG")
 		##jpegdec > nvjpegdec
-		v4l2src_pipeline_str+="jpegparse ! nvjpegdec ! videoscale ! "
+		v4l2src_pipeline_str+="jpegparse ! nvjpegdec ! videoscale ! videoconvert ! tee name=t  t. !"
 	;;
 
 	"H264")
 		# Jetson Nano    enable-low-outbuffer=1 
 		# Jetson Nano max perf   disable-dvfs=1
-		v4l2src_pipeline_str+="omxh264dec enable-low-outbuffer=1  disable-dvfs=1 ! "
+		v4l2src_pipeline_str+="omxh264dec enable-low-outbuffer=1  disable-dvfs=1 ! videoconvert ! tee name=t  t. !"
 		#v4l2src_pipeline_str+="nvv4l2decoder ! "
 	;;	
 
 esac
 
 
-v4l2src_pipeline_str+="videoconvert ! tee name=t  t. ! appsink sync=false async=false "
+v4l2src_pipeline_str+=" appsink sync=false async=false "
 
 #printf "$v4l2src_pipeline_str\n\n";
 
@@ -319,9 +328,23 @@ do
 			##nv3dsink
 			##nvvideosink
 			##xvimagesink
-			v4l2src_display_str=${v4l2src_pipeline_str//appsink/  nvvidconv ! 'video/x-raw\(memory:NVMM\), format=I420,  framerate=30/1' ! nvoverlaysink}
-			execute_str="gst-launch-1.0 $v4l2src_display_str "
+			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
+				"RG10")
+					v4l2src_display_str=${v4l2src_pipeline_str//appsink/nvoverlaysink}
+					execute_str="gst-launch-1.0 $v4l2src_display_str -e"
+				;;
+				*)
+					#v4l2src_display_str=${v4l2src_pipeline_str//appsink/ nvvidconv ! 'video/x-raw\(memory:NVMM\), format=I420,  framerate=30/1' ! nvoverlaysink}
+					v4l2src_display_str=${v4l2src_pipeline_str//appsink/ nvvidconv ! nvoverlaysink}					
+					execute_str="gst-launch-1.0 $v4l2src_display_str -e"
+				;;
+			esac
+		
+			#execute_str="gst-launch-1.0 $v4l2src_display_str -e"
 			printf "\nDebug: $execute_str\n"
+			echo "$execute_str"
+
+
 			eval $execute_str
 			continue
 		;;
@@ -336,7 +359,7 @@ do
 			##change to 15fps
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//30/15}
 
-			execute_str="$darknet_police_str \"$v4l2src_pipeline_str\" -thresh 0.4"
+			execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4"
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
 			continue
@@ -348,7 +371,9 @@ do
 			#needto remove nvjpeg
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
 
-			execute_str="$darknet_police_str \"$v4l2src_pipeline_str\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//\'/''} ##remove the ' for nvarguscamerasrc
+
+			execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
 
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
@@ -362,10 +387,12 @@ do
 			#needto remove nvjpeg
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
 
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//\'/''} ##remove the ' for nvarguscamerasrc
+
 			##change to 15fps
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//30/15}
 
-			execute_str="$darknet_coco_str \"$v4l2src_pipeline_str\" -thresh 0.4"
+			execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4"
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
 			continue
@@ -378,8 +405,10 @@ do
 			#needto remove nvjpeg
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
 
+			v4l2src_pipeline_str=${v4l2src_pipeline_str//\'/''} ##remove the ' for nvarguscamerasrc
 
-			execute_str="$darknet_coco_str \"$v4l2src_pipeline_str\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+
+			execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
 			continue
@@ -391,16 +420,6 @@ do
 done
 
 
-
-
-#"v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! tee name=t   t. !  appsink sync=false async=false" -dont_show -mjpeg_port 8090 -json_port 8070 -map
-
-#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! image/jpeg, width=1920, height=1080, framerate=10/1 ! jpegparse ! jpegdec ! videoscale ! videoconvert ! appsink sync=false async=false" -thresh 0.4
-
-
-#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-h264, width=1920, height=1080, framerate=10/1, streamformat=byte-stream !  omxh264dec ! videoconvert ! appsink sync=false async=false" -thresh 0.4
-
-cd /home/samson/install_yolo/AlexeyAB/darknet
 
 
 #eval $darknet_police_str
