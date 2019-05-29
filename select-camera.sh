@@ -155,6 +155,106 @@ done
 
 #echo "${VIDEO_CAMERA_INPUTS[@]}" 
 
-printf "\nWhich Camera would you like to use?"
-read camera_num
-printf "\nOK, choosen: ${VIDEO_CAMERA_INPUTS[$camera_num,1] ${VIDEO_CAMERA_INPUTS[$camera_num,0]\n"
+camera_num="-1"
+
+while  ! [[ ("$camera_num" -ge 0) && ("$camera_num" -lt ${#video_camera_array[@]}) ]];
+do
+
+	printf "\nWhich Camera would you like to use? "
+
+	end_num=$(( ${#video_camera_array[@]}-1 ))
+
+	printf "[0-${end_num}]\n"	
+	read camera_num	
+done
+
+printf "\nOK, choosen: $camera_num, ${VIDEO_CAMERA_INPUTS[$camera_num,1]} ${VIDEO_CAMERA_INPUTS[$camera_num,0]}\n"
+
+
+show_result_onscreen="-1"
+while  ! [[ ("$show_result_onscreen" -ge 0) && ("$show_result_onscreen" -lt 2) ]];
+do
+
+	printf "\nDo you want to show on screen(need X11) [0-no, 1-yes]? "
+	
+	read show_result_onscreen	
+done
+
+
+darknet_exe_str="./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "
+
+v4l2src_pipeline_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} do-timestamp=true ! "
+
+#video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! tee name=t   t. !  appsink sync=false async=false" 
+framerate=30
+
+
+case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
+
+	"YUYV")
+		v4l2src_pipeline_str+="video/x-raw, "
+		framerate=5
+	;;
+
+	"MJPG")
+		v4l2src_pipeline_str+="image/jpeg, "
+	;;
+
+	"H264")
+		v4l2src_pipeline_str+="video/x-h264, "
+	;;	
+
+esac
+
+
+v4l2src_pipeline_str+="width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VIDEO_CAMERA_INPUTS[$camera_num,6]}, framerate=$framerate ! "
+
+case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
+
+	"YUYV")
+		printf ""
+	;;
+
+	"MJPG")
+		v4l2src_pipeline_str+="jpegparse ! jpegdec ! videoscale ! "
+	;;
+
+	"H264")
+		v4l2src_pipeline_str+="omxh264dec ! "
+	;;	
+
+esac
+
+
+v4l2src_pipeline_str+="videoconvert ! appsink sync=false async=false "
+
+#printf "$v4l2src_pipeline_str\n\n";
+
+darknet_exe_str+=" \"$v4l2src_pipeline_str\" "
+
+case ${show_result_onscreen} in
+
+	"0")
+		darknet_exe_str+="-dont_show -mjpeg_port 8090 -json_port 8070 -map"
+	;;
+
+	"1")
+		darknet_exe_str+="--thresh 0.4"
+	;;
+
+esac
+
+printf "$darknet_exe_str \n\n";
+
+
+#"v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! tee name=t   t. !  appsink sync=false async=false" -dont_show -mjpeg_port 8090 -json_port 8070 -map
+
+#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! image/jpeg, width=1920, height=1080, framerate=10/1 ! jpegparse ! jpegdec ! videoscale ! videoconvert ! appsink sync=false async=false" --thresh 0.4
+
+
+#./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-h264, width=1920, height=1080, framerate=10/1, streamformat=byte-stream !  omxh264dec ! videoconvert ! appsink sync=false async=false" --thresh 0.4
+
+cd /home/samson/install_yolo/AlexeyAB/darknet
+($darknet_exe_str)
+
+#nohup command &>/dev/null &
