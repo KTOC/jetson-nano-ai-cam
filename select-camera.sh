@@ -74,11 +74,17 @@ done
 #IFS=$'\n\r'
 
 
-printf "\nGet Frame Size ============================\n\n";
+#printf "\nGet Frame Size ============================\n\n";
+
+
 
 for (( i=0; i<${#video_camera_array[@]}; i++ ));
 do	 
+
 	#echo "$i. Doing: v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$i,0]} --list-framesizes=${VIDEO_CAMERA_INPUTS[$i,2]} "
+
+	##Assume TargetFrame rate = 30
+	framerate=30
 
 	VIDEO_CAMERA_INPUTS[$i,3]=$( v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$i,0]} --list-framesizes=${VIDEO_CAMERA_INPUTS[$i,2]} | cut -d ' ' -f 3-  )
 
@@ -115,9 +121,14 @@ do
 		##printf  "$this_fps_string"
 
 		if [[ $this_fps_string ==  *"30.000 fps"* ]]; then
-			#printf "\nyes\n"
+			printf "yes\n"
+			framerate=30
 			break	##break loop, as it is supported, not need find another one
+		else
+			#if it cannot find 30fps, it will revert to 5fps, just incase		
+			framerate=5
 		fi
+
 	done
 	
 
@@ -125,6 +136,7 @@ do
 
 	VIDEO_CAMERA_INPUTS[$i,5]="${selected_width}"
 	VIDEO_CAMERA_INPUTS[$i,6]="${selected_height}"
+	VIDEO_CAMERA_INPUTS[$i,7]=$framerate
 
 	#printf "\nSelected Size: ${selected_width}  x  ${selected_height}"
 	#printf  "\n\n------------------------\n";
@@ -138,15 +150,16 @@ echo "Output ============================";
 
 for (( i=0; i<${#video_camera_array[@]}; i++ ));
 do
-	echo $i
+	#echo $i
 
-	echo ${VIDEO_CAMERA_INPUTS[$i,0]}
-	echo ${VIDEO_CAMERA_INPUTS[$i,1]}
-	echo ${VIDEO_CAMERA_INPUTS[$i,2]}
+	echo "Input:	${VIDEO_CAMERA_INPUTS[$i,0]}"
+	echo "Name:	${VIDEO_CAMERA_INPUTS[$i,1]}"
+	echo "Type:	${VIDEO_CAMERA_INPUTS[$i,2]}"
 	#echo ${VIDEO_CAMERA_INPUTS[$i,3]}
-	echo ${VIDEO_CAMERA_INPUTS[$i,4]}
-	echo ${VIDEO_CAMERA_INPUTS[$i,5]}
-	echo ${VIDEO_CAMERA_INPUTS[$i,6]}
+	#echo ${VIDEO_CAMERA_INPUTS[$i,4]}
+	echo "Width:	${VIDEO_CAMERA_INPUTS[$i,5]}"
+	echo "Height:	${VIDEO_CAMERA_INPUTS[$i,6]}"
+	echo "FPS:	${VIDEO_CAMERA_INPUTS[$i,7]}"
 
 	echo "------------------------";
 
@@ -157,7 +170,11 @@ done
 
 camera_num="-1"
 
-while  ! [[ ("$camera_num" -ge 0) && ("$camera_num" -lt ${#video_camera_array[@]}) ]];
+regex=^[0-9]+$
+
+#while  ! [[ ( "${camera_num}" =~ ${regex} ) ]];
+
+while  ! [[ ( "${camera_num}" =~ ${regex} )  && ("$camera_num" -ge 0) && ("$camera_num" -lt ${#video_camera_array[@]})  ]];
 do
 
 	printf "\nWhich Camera would you like to use? "
@@ -165,35 +182,33 @@ do
 	end_num=$(( ${#video_camera_array[@]}-1 ))
 
 	printf "[0-${end_num}]\n"	
-	read camera_num	
+	read -n1 camera_num	
+
+	case $camera_num in
+		$'\e') 
+			printf "\n\nEXIT \n\n"
+			exit 0
+			break
+		;;
+	esac
+
 done
 
-printf "\nOK, choosen: $camera_num, ${VIDEO_CAMERA_INPUTS[$camera_num,1]} ${VIDEO_CAMERA_INPUTS[$camera_num,0]}\n"
+printf "\nChosen: ${VIDEO_CAMERA_INPUTS[$camera_num,1]} ${VIDEO_CAMERA_INPUTS[$camera_num,0]}\n"
 
 
-show_result_onscreen="-1"
-while  ! [[ ("$show_result_onscreen" -ge 0) && ("$show_result_onscreen" -lt 2) ]];
-do
+darknet_police_str="./darknet detector demo ./cfg/samson-obj.data ./cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "
 
-	printf "\nDo you want to show on screen(need X11) [0-no, 1-yes]? "
-	
-	read show_result_onscreen	
-done
-
-
-darknet_exe_str="./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "
+darknet_coco_str="./darknet detector demo ./cfg/coco.data ./cfg/yolov3-tiny.cfg ./yolov3-tiny.weights "
 
 v4l2src_pipeline_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} do-timestamp=true ! "
 
-#video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! tee name=t   t. !  appsink sync=false async=false" 
-framerate=30
 
 
 case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 
 	"YUYV")
 		v4l2src_pipeline_str+="video/x-raw, "
-		framerate=5
 	;;
 
 	"MJPG")
@@ -207,7 +222,7 @@ case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 esac
 
 
-v4l2src_pipeline_str+="width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VIDEO_CAMERA_INPUTS[$camera_num,6]}, framerate=$framerate ! "
+v4l2src_pipeline_str+="width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VIDEO_CAMERA_INPUTS[$camera_num,6]}, framerate=$framerate/1 ! "
 
 case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 
@@ -226,7 +241,7 @@ case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 esac
 
 
-v4l2src_pipeline_str+="videoconvert ! appsink sync=false async=false "
+v4l2src_pipeline_str+="videoconvert ! tee name=t  t. ! appsink sync=false async=false "
 
 #printf "$v4l2src_pipeline_str\n\n";
 
@@ -235,16 +250,53 @@ darknet_exe_str+=" \"$v4l2src_pipeline_str\" "
 case ${show_result_onscreen} in
 
 	"0")
-		darknet_exe_str+="-dont_show -mjpeg_port 8090 -json_port 8070 -map"
+		darknet_police_str+="-dont_show -mjpeg_port 8090 -json_port 8070 -map"
 	;;
 
 	"1")
-		darknet_exe_str+="--thresh 0.4"
+		darknet_police_str+="--thresh 0.4"
 	;;
 
 esac
 
-printf "$darknet_exe_str \n\n";
+printf "$darknet_police_str \n\n";
+
+
+show_result_onscreen="-1"
+execute_str=""
+
+while  ! [[ ("$show_result_onscreen" -ge 0) && ("$show_result_onscreen" -lt 2) ]];
+do
+
+	printf "\nFunctions: 0. Display Device details\n"
+	printf "\nFunctions: 1. GUI DEMO Display\n"
+	printf "\nFunctions: 2. Darknet YoloV3-Police Normal (Require GUI X11)\n"
+	printf "\nFunctions: 3. Darknet YoloV3-Police NO Display MJPG http://:8090\n"
+	printf "\nFunctions: 4. Darknet YoloV3-Tiny Normal (Require GUI X11)\n"
+	printf "\nFunctions: 5. Darknet YoloV3-Tiny NO Display MJPG http://:8090\n"
+
+	
+	read -n1 show_result_onscreen	
+
+	case $show_result_onscreen in
+		$'\e') 
+			printf "\n\nEXIT \n\n"
+			exit 0
+			break
+		;;
+
+		0)
+			clear
+			execute_str="v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} --list-formats-ext -all"
+			printf "\nDebug: $execute_str\n"
+			eval $execute_str
+		;;
+	esac	
+
+
+done
+
+
 
 
 #"v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-raw, width=1920, height=1080, framerate=30/1 ! videoconvert ! tee name=t   t. !  appsink sync=false async=false" -dont_show -mjpeg_port 8090 -json_port 8070 -map
@@ -255,6 +307,8 @@ printf "$darknet_exe_str \n\n";
 #./darknet detector demo cfg/samson-obj.data cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "v4l2src io-mode=2 device=/dev/video1 do-timestamp=true ! video/x-h264, width=1920, height=1080, framerate=10/1, streamformat=byte-stream !  omxh264dec ! videoconvert ! appsink sync=false async=false" --thresh 0.4
 
 cd /home/samson/install_yolo/AlexeyAB/darknet
-($darknet_exe_str)
+
+
+eval $darknet_police_str
 
 #nohup command &>/dev/null &
