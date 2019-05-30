@@ -1,6 +1,8 @@
 #!/bin/bash
 clear
 
+nmcli con show
+nmcli con mod JETSON-NANO connection.autoconnect yes
 
 declare -A VIDEO_CAMERA_INPUTS
 
