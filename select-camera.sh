@@ -288,7 +288,7 @@ myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[
 #--list-ctrls-menus
 ##disable auto exposure 1-disable auto exposure, 3-enable auto exposure
 eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c exposure_auto=3 )
-eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c gamma=80 )
+#eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c gamma=80 )
 #eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c backlight_compensation=0 )
 #eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c gain=0 )
 
@@ -443,8 +443,21 @@ do
 			##change to 15fps
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//30/5}
 
-			#execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4"
-			execute_str="$darknet_coco_str -c $camera_num -thresh 0.4"
+
+			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
+				"RG10")
+
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+				;;
+				*)
+
+					#execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4"
+					execute_str="$darknet_coco_str -c $camera_num -thresh 0.4"
+				;;
+			esac
+
+
+
 
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
@@ -461,9 +474,17 @@ do
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//\'/''} ##remove the ' for nvarguscamerasrc
 
 
-			#execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
+				"RG10")
 
-			execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+				;;
+				*)
+
+					execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+				;;
+			esac
+	
 
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
