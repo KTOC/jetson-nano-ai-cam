@@ -8,6 +8,9 @@ declare -A VIDEO_CAMERA_INPUTS
 #sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
 
 
+post_to_server=true;
+
+
 #today=`date +%Y-%m-%d.%H:%M:%S`
 today=`date +%Y-%m-%d.%H.%M.%S`
 
@@ -15,7 +18,7 @@ shopt -s nullglob
 video_camera_array=(/dev/video*)
 shopt -u nullglob # Turn off nullglob to make sure it doesn't interfere with anything later
 
-
+printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
 
 if (( ${#video_camera_array[@]} == 0 )); then
     echo "No Cameras found" >&2
@@ -216,7 +219,7 @@ v4l2src_pipeline_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num
 case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 
 	"YUYV")
-		v4l2src_pipeline_str+="video/x-raw, format=YUY2 "
+		v4l2src_pipeline_str+="video/x-raw, format=YUY2, "
 	;;
 
 	"MJPG")
@@ -287,12 +290,15 @@ myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[
 
 #--list-ctrls-menus
 ##disable auto exposure 1-disable auto exposure, 3-enable auto exposure
-eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c exposure_auto=3 )
+#eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c exposure_auto=3 )
 #eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c gamma=80 )
 #eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c backlight_compensation=0 )
 #eval $(v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} -c gain=0 )
 
 #read
+
+
+
 
 regex=^[0-9]+$
 
@@ -301,6 +307,7 @@ do
 
 #	printf "0. Select another Device\n"
 	printf "\nFunctions: \n"
+	printf "0. Change FPS to 10\n"
 	printf "1. Display Device details\n"
 	printf "\x1b[;33;1m"
 	printf "2. GUI DEMO Display - HDMI\n"
@@ -327,7 +334,12 @@ do
 			exit 0
 			break
 		;;
-
+		0)
+			clear
+			framerate=10
+			select_function=-1
+			continue
+		;;
 		1)
 			clear
 			execute_str="v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} --list-formats-ext --all"
@@ -348,6 +360,10 @@ do
 				"RG10")					
 					#v4l2src_pipeline_str=${v4l2src_pipeline_str//1640/1920}	
 					#v4l2src_pipeline_str=${v4l2src_pipeline_str//1232/1080}	
+
+					#restart if needed
+					#sudo systemctl restart nvargus-daemon
+
 					v4l2src_display_str="nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=(int)1640, height=(int)1232, format=(string)NV12, framerate=(fraction)30/1' ! nvvidconv flip-method=2 ! nvoverlaysink sync=false async=false"					
 					execute_str="gst-launch-1.0 $v4l2src_display_str -e"
 				;;
@@ -369,9 +385,7 @@ do
 		
 			#execute_str="gst-launch-1.0 $v4l2src_display_str -e"
 			printf "\nDebug: $execute_str\n"
-			echo "$execute_str"
-
-
+	
 			eval $execute_str
 			continue
 		;;
@@ -418,11 +432,11 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
 				;;
 				*)
 
-					execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+					execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
 				;;
 			esac
 
@@ -447,7 +461,7 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
 				;;
 				*)
 
@@ -477,17 +491,22 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
 				;;
 				*)
 
-					execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070 -map"
+					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /mnt/sandisk/detection- -mjpeg_port 8090 -json_port 8070 | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\"/home/samson/jetson-nano-ai-cam/send_http.sh\" "'$1 $2'" ) }'"
+
+					execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /mnt/sandisk/detection- -mjpeg_port 8090 -json_port 8070 | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\"/home/samson/jetson-nano-ai-cam/send_http.sh\" ) }'"
 				;;
 			esac
 	
 
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
+
+			##curl -X POST -H "Content-Type: application/json" -d '{"value1":"he","value2":"12","value3":"345"}' 
+
 			continue
 		;;	
 
@@ -496,6 +515,8 @@ do
 			sudo nvpmodel -m 1
 			sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
 			printf "\nSet to 5W successfully\n"
+			printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
+			sudo systemctl restart nvargus-daemon
 			select_function=-1
 			continue
 		;;
@@ -514,9 +535,13 @@ do
 			sudo sh -c "echo performance > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor"
 			sudo sh -c "echo performance > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor"
 			printf "\nSet to 10W successfully\n"
+			printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
+			sudo systemctl restart nvargus-daemon
 			select_function=-1
 			continue
 		;;
+
+		
 
 	esac	
 
