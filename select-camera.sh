@@ -4,12 +4,23 @@ clear
 
 #nmcli con show
 #nmcli con mod JETSON-NANO connection.autoconnect yes
+#nmtui
+#nmcli con up "MORE connection 1"
+#nmcli con down "jetson1"
+#nmcli con up "jetson1"
+
+
 
 declare -A VIDEO_CAMERA_INPUTS
 #sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
 #nvpmodel -q
 
 post_to_server=true;
+
+/root/ngrok/ngrok start -all &
+sleep 1
+cat /root/ngrok/log.txt | grep addr\=\/ | tail -4 | awk '{print $NF}' | sed 's/url=tcp\:\/\///' > /root/ngrok/current.txt
+python3 /home/samson/jetson-nano-ai-cam/show.py
 
 
 #today=`date +%Y-%m-%d.%H:%M:%S`
