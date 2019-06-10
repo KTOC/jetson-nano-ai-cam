@@ -1,72 +1,55 @@
 temptemp=$(cat <<EOF
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001818.jpg
+JETSON_NANO_DETECTION:person 43%, person 42%, person 42%, person 41%, :/home/samson/images/d20190610-074446_0000001996.jpg 
 EOF
 )
 echo $temptemp
 
 
-cat <<EOF
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00000326.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00000443.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00000577.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00000697.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00000831.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00000943.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001061.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001179.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001313.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001448.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001566.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001684.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001818.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00001939.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00002054.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00002188.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00002323.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00002457.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00002592.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00002710.jpg
-JETSON_NANO_DETECTION:person 69%, person 40%, :/mnt/sandisk/detection-_00002842.jpg
-EOF
 echo
 echo
 echo
 
-#echo $temptemp | sed 's/JETSON_NANO_DETECTION\://g'
-#echo $temptemp | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g'
-#echo $temptemp | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{print $1,$2}'
+#echo $temptemp | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g'
+#echo $temptemp | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g'
+#echo $temptemp | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{print $1 $2}'
 
-#echo $temptemp | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{print $2}' | xargs ls -al
+#echo $temptemp | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{print $2}' | xargs ls -al
 
-#echo $temptemp | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system ("ls -al " $2) }'
+#echo $temptemp | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system ("ls -al " $2) }'
 
 
 #-i header
 
 
-curl_str=$(cat <<EOF
-curl \
--X POST -H 'Content-Type: multipart/form-data' \
-	-F 'gps=0.0,0.0' \
-	-F 'detected_object=policeman(90%)' \
-	-F 'app_id=1234' \
-	-F 'app_token=42134' \
-	-F "files=@/mnt/sandisk/detection-_00002842.jpg" \
-	-F 'simple_form=1' \
-https://jetson-nano.mail2you.net/server/php/index.php
-EOF
-)
-
 clear
-echo $curl_str
-$curl_str
-
 echo "**********************"
 
+#post_server_str=$(cat <<EOF
+# | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system ( "/home/samson/jetson-nano-ai-cam/send_http.sh $1 $2" ) }'
+#EOF
+#)
+
+#post_server_str=$(cat <<EOF
+# | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/ //g' | sed 's/\,\W/ /g' | awk -v myvar="abc" '
+# BEGIN{
+#	to_run = "/home/samson/jetson-nano-ai-cam/send_http.sh \$1 \$2 $myvar" 
+#	system("./send_http.sh \$1")
+#	$to_run
+#}
+# '  
+#EOF
+#)
+
+
 post_server_str=$(cat <<EOF
- | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system ( "$curl_str" ) }'
+ | grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/ //g' | sed 's/\,\W/|/g' | awk -F'|' 'BEGIN {print ("/home/samson/jetson-nano-ai-cam/send_http.sh "\$1" "\$2) | "sh" }  '  
 EOF
 )
+
+
+
+
+
 
 #post_server_str =" | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\" \" $2) }' ";
 
@@ -78,5 +61,10 @@ echo $temptemp $post_server_str
 EOF
 )
 
-echo $post_server_str
+#echo $post_server_str
+
+echo
 eval $post_server_str
+echo
+echo
+tail -2 /home/samson/jetson-nano-ai-cam/send_http.log

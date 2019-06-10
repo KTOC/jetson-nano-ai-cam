@@ -1,0 +1,14 @@
+2019-06-10.08.03.01 curl -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person43%,person42%,person42%,person41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F "files=@/home/samson/images/d20190610-074446_0000001996.jpg" 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php 
+
+2019-06-10.08.03.16 curl -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person43%,person42%,person42%,person41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F "files=@/home/samson/images/d20190610-074446_0000001996.jpg" 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php 
+
+2019-06-10.08.03.33 curl -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person43%,person42%,person42%,person41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F "files=@/home/samson/images/d20190610-074446_0000001996.jpg" 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php 
+
+2019-06-10.08.03.44 curl -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person43%,person42%,person42%,person41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F "files=@/home/samson/images/d20190610-074446_0000001996.jpg" 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php 
+
+2019-06-10.08.03.53 curl -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person43%,person42%,person42%,person41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F "files=@/home/samson/images/d20190610-074446_0000001996.jpg" 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php 
+
+2019-06-10.08.03.55 curl -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person43%,person42%,person42%,person41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F "files=@/home/samson/images/d20190610-074446_0000001996.jpg" 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php 
+
+2019-06-10.08.03.59 curl -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person43%,person42%,person42%,person41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F "files=@/home/samson/images/d20190610-074446_0000001996.jpg" 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php 
+

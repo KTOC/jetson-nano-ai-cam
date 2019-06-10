@@ -13,8 +13,13 @@ https://jetson-nano.mail2you.net/server/php/index.php
 EOF
 )
 
+#ARGV[2]
 #clear
 #echo $curl_str
 #printf "\n\n"
+
+today=`date +%Y-%m-%d.%H.%M.%S`
+echo "$today $curl_str \n" >> /home/samson/jetson-nano-ai-cam/send_http.log
+
 eval $curl_str
-#echo "**********************"
+echo "*Sent*$1******************$2**"

@@ -1,18 +1,19 @@
 #!/bin/bash
 clear
+#sudo mount /dev/sda1 /mnt/sandisk
 
 #nmcli con show
 #nmcli con mod JETSON-NANO connection.autoconnect yes
 
 declare -A VIDEO_CAMERA_INPUTS
 #sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
-
+#nvpmodel -q
 
 post_to_server=true;
 
 
 #today=`date +%Y-%m-%d.%H:%M:%S`
-today=`date +%Y-%m-%d.%H.%M.%S`
+today=`date +%Y%m%d-%H%M%S`
 
 shopt -s nullglob
 video_camera_array=(/dev/video*)
@@ -240,7 +241,7 @@ case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 
 	"RG10")
 		#onboard camera completely different
-		v4l2src_pipeline_str="nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=(int)1640, height=(int)1232, format=(string)NV12, framerate=(fraction)30/1' ! nvvidconv flip-method=2 ! 'video/x-raw, format=(string)BGRx' ! videoconvert ! 'video/x-raw, format=(string)BGR' ! "
+		v4l2src_pipeline_str="nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=(int)1600, height=(int)1200, format=(string)NV12, framerate=(fraction)30/1' ! nvvidconv flip-method=2 ! 'video/x-raw, format=(string)BGRx' ! videoconvert ! 'video/x-raw, format=(string)BGR' ! "
 		#v4l2src_pipeline_str="nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=(int)1640, height=(int)1232, format=(string)NV12, framerate=(fraction)30/1' ! nvvidconv flip-method=2 ! 'video/x-raw, format=(string)BGRx' ! videoconvert ! 'video/x-raw, format=(string)BGR' ! tee name=t  t. !"
 	;;
 
@@ -400,7 +401,7 @@ do
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//\'/''} ##remove the ' for nvarguscamerasrc
 
 			##change to 15fps
-			v4l2src_pipeline_str=${v4l2src_pipeline_str//30/5}
+			#v4l2src_pipeline_str=${v4l2src_pipeline_str//30/5}
 
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
@@ -432,11 +433,17 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
+					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
 				;;
 				*)
 
-					execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
+					#execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
+					execute_str=$(cat <<EOF
+						$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | grep JETSON_NANO_DETECTION |  sed 's/JETSON_NANO_DETECTION\://g' | sed 's/ //g' | sed 's/\,\W/|/g' | awk -F'|' ' {BEGIN print ("/home/samson/jetson-nano-ai-cam/send_http.sh "\$1" "\$2) | "sh" }  '  
+EOF
+)
+
+
 				;;
 			esac
 
@@ -461,7 +468,7 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4"
 				;;
 				*)
 
@@ -491,13 +498,22 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -mjpeg_port 8090 -json_port 8070"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
 				;;
 				*)
 
-					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /mnt/sandisk/detection- -mjpeg_port 8090 -json_port 8070 | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\"/home/samson/jetson-nano-ai-cam/send_http.sh\" "'$1 $2'" ) }'"
+					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\"/home/samson/jetson-nano-ai-cam/send_http.sh\" "'$1 $2'" ) }'"
 
-					execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /mnt/sandisk/detection- -mjpeg_port 8090 -json_port 8070 | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\"/home/samson/jetson-nano-ai-cam/send_http.sh\" ) }'"
+					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 |  grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/ //g' | sed 's/\,\W/|/g' | awk -F'|' ' {print ("/home/samson/jetson-nano-ai-cam/send_http.sh "\$1" "\$2) | "sh" }  '  
+
+					execute_str=$(cat <<EOF
+						$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 |  grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/ //g' | sed 's/\,\W/|/g' | awk -F'|' ' {BEGIN print ("/home/samson/jetson-nano-ai-cam/send_http.sh "\$1" "\$2) | "sh" }  '  
+EOF
+)
+
+					##ori
+					##execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | grep JETSON_NANO_DETECTION";
+
 				;;
 			esac
 	
@@ -513,6 +529,7 @@ do
 		7)
 			clear
 			sudo nvpmodel -m 1
+			sudo nvpmodel -q
 			sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
 			printf "\nSet to 5W successfully\n"
 			printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
@@ -524,7 +541,8 @@ do
 		8)
 			clear
 			#MAXN
-			sudo nvpmodel -m 0 
+			sudo nvpmodel -m 0
+			sudo nvpmodel -q
 			sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
 			sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu0/online"
 			sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu1/online"
