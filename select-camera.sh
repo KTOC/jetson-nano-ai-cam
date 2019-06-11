@@ -17,8 +17,8 @@ declare -A VIDEO_CAMERA_INPUTS
 
 post_to_server=true;
 
-/root/ngrok/ngrok start -all &
-sleep 1
+#/root/ngrok/ngrok start -all &
+#sleep 1
 cat /root/ngrok/log.txt | grep addr\=\/ | tail -4 | awk '{print $NF}' | sed 's/url=tcp\:\/\///' > /root/ngrok/current.txt
 python3 /home/samson/jetson-nano-ai-cam/show.py
 
@@ -451,7 +451,7 @@ do
 					#execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
 					execute_str=$(cat <<EOF
 						$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
-						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" $2 "\" " $3)} '
+						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} '
 EOF
 )
 
@@ -520,7 +520,7 @@ EOF
 
 					execute_str=$(cat <<EOF
 						$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
-						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" $2 "\" " $3)} '  
+						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} '  
 EOF
 )
 
