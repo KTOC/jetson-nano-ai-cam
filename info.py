@@ -19,7 +19,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 import time
-import sys
 
 import Adafruit_SSD1306
 
@@ -100,16 +99,18 @@ Disk = subprocess.check_output(cmd, shell = True )
 
 # Write two lines of text.
 
-
-print_str = str(sys.argv[1])
+with open("/root/ngrok/current.txt", "r") as file:
+	data = file.read()
 
 import textwrap
 wrapper = textwrap.TextWrapper(width=20)
-string = wrapper.fill(text=print_str)
+string = wrapper.fill(text=data)
 
 
-draw.text((x, top),       string, font=font, fill=255)
-
+draw.text((x, top),       "eth0: " + str(get_ip_address('eth0')),  font=font, fill=255)
+draw.text((x, top+8),     "wlan0: " + str(get_ip_address('wlan0')), font=font, fill=255)
+#draw.text((x, top+16),     "Samson Jetson NANO" , font=font, fill=255)
+draw.text((x, top+20),    string, font=font, fill=255)
 
 # Display image.
 disp.image(image)

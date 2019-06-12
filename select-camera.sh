@@ -1,26 +1,27 @@
 #!/bin/bash
-clear
-#sudo mount /dev/sda1 /mnt/sandisk
-
-#nmcli con show
-#nmcli con mod JETSON-NANO connection.autoconnect yes
-#nmtui
-#nmcli con up "MORE connection 1"
-#nmcli con down "jetson1"
-#nmcli con up "jetson1"
-
-
-
 declare -A VIDEO_CAMERA_INPUTS
-#sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
-#nvpmodel -q
-
 post_to_server=true;
+myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | tr '\n' '|' )
 
-#/root/ngrok/ngrok start -all &
-#sleep 1
-cat /root/ngrok/log.txt | grep addr\=\/ | tail -4 | awk '{print $NF}' | sed 's/url=tcp\:\/\///' > /root/ngrok/current.txt
-python3 /home/samson/jetson-nano-ai-cam/show.py
+
+clear
+/home/samson/skip_sudo.sh
+
+#Check if mobile device is plugged in, if yes and  not activated, try to activate it
+mobile_device_name=$(nmcli con show | awk ' /mobile_network/ {print $4}')
+if [[ $mobile_device_name == "--" ]]; then
+	sudo nmcli con up mobile_network
+	sudo nmcli con mod mobile_network connection.autoconnect yes
+fi
+
+#Check if jetson_hotspot is enabled, if yes and  not activated, try to activate it
+jetson_hotspot=$(nmcli con show | awk ' /jetson_hotspot/ {print $4}')
+if [[ $jetson_hotspot == "--" ]]; then
+	sudo nmcli con up jetson_hotspot
+	sudo nmcli con mod jetson_hotspot connection.autoconnect yes
+fi
+
+
 
 
 #today=`date +%Y-%m-%d.%H:%M:%S`
@@ -39,20 +40,15 @@ fi
 
 echo "Found devices ============================";
 echo "${video_camera_array[@]}"
-echo ""
-
 
 ##----GET basic info
-##for i in ${video_camera_array[@]}
 
 this_device_id="nothing"
 
 for (( i=0; i<${#video_camera_array[@]}; i++ ));
 do
-	#echo $i
 
 	this_device_id="${video_camera_array[$i]}"
-
 	VIDEO_CAMERA_INPUTS[$i,0]="$this_device_id"
 
 	#v4l2-ctl --device=$this_device_id --list-formats-ext
@@ -171,48 +167,179 @@ echo ""
 
 echo "Output ============================";
 
-for (( i=0; i<${#video_camera_array[@]}; i++ ));
-do
-	#echo $i
 
-	echo "Input:	${VIDEO_CAMERA_INPUTS[$i,0]}"
-	echo "Name:	${VIDEO_CAMERA_INPUTS[$i,1]}"
-	echo "Type:	${VIDEO_CAMERA_INPUTS[$i,2]}"
-	#echo ${VIDEO_CAMERA_INPUTS[$i,3]}
-	#echo ${VIDEO_CAMERA_INPUTS[$i,4]}
-	echo "Width:	${VIDEO_CAMERA_INPUTS[$i,5]}"
-	echo "Height:	${VIDEO_CAMERA_INPUTS[$i,6]}"
-	echo "FPS:	${VIDEO_CAMERA_INPUTS[$i,7]}"
-
-	echo "------------------------";
-
-done
 
 
 #echo "${VIDEO_CAMERA_INPUTS[@]}" 
 
 camera_num="-1"
 
+#regex=^[0-9]+$
 regex=^[0-9]+$
 
 #while  ! [[ ( "${camera_num}" =~ ${regex} ) ]];
 
-while  ! [[ ( "${camera_num}" =~ ${regex} )  && ("$camera_num" -ge 0) && ("$camera_num" -lt ${#video_camera_array[@]})  ]];
+while ! [[ ( "${camera_num}" =~ ${regex} ) && ("$camera_num" -ge 0) && ("$camera_num" -lt ${#video_camera_array[@]})  ]];
 do
 
-	printf "\nWhich Camera would you like to use? "
+	for (( i=0; i<${#video_camera_array[@]}; i++ ));
+	do
+		#echo $i
+
+		echo "Input:	${VIDEO_CAMERA_INPUTS[$i,0]}"
+		echo "Name:	${VIDEO_CAMERA_INPUTS[$i,1]}"
+		echo "Type:	${VIDEO_CAMERA_INPUTS[$i,2]}"
+		#echo ${VIDEO_CAMERA_INPUTS[$i,3]}
+		#echo ${VIDEO_CAMERA_INPUTS[$i,4]}
+		echo "Width:	${VIDEO_CAMERA_INPUTS[$i,5]}"
+		echo "Height:	${VIDEO_CAMERA_INPUTS[$i,6]}"
+		echo "FPS:	${VIDEO_CAMERA_INPUTS[$i,7]}"
+
+		echo "------------------------";
+
+	done
+
 
 	end_num=$(( ${#video_camera_array[@]}-1 ))
 
 	#printf "[0-${end_num}]\n"	
 
+	printf "\nOther Functions: \n"
+	printf "a. Toggle Post to server\n"
+	printf "q. Kill running darknet interference\n"
+	printf "f. Toggle FPS(Current: $framerate)\n"
+	printf "p. Toggle Power Mode\n"
+	printf "h. Reset Jetson Hotspot\n"
+	printf "m. Reset Mobile Network\n"
+	printf "n. Reset nvargus-daemon\n"
+	printf "g. Reset ngrok\n"
+	printf "s. Show info\n"
+
+	printf "\nWhich Camera would you like to use? "
 	read -p "[0-${end_num}]: " -n1 camera_num	
 
 	case $camera_num in
+
+		a)
+			clear
+			if [[ $post_to_server == true ]]; then
+				post_to_server=false
+				printf "Will not send to server\n";
+				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Will Not send to server"
+			else
+				post_to_server=true
+				printf "Will send to server\n";
+				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Will send to server"
+			fi
+
+			select_function=-1
+			continue
+		;;
+
+		f)
+			clear
+			if [ $framerate == 10 ]; then
+				framerate=5
+			else	
+				framerate=10
+			fi
+	
+			printf "New Framerate: $framerate\n";
+			select_function=-1
+			continue
+		;;
+
+
+		q)
+			clear
+			if [[ $(sudo pgrep darknet) == "" ]]; then
+				printf "Darknet process Not found\n";
+				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Darknet not found"
+			else
+				sudo pgrep darknet | xargs sudo kill -9
+				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Darknet killed"
+				printf "All darknet process killed\n";
+			fi
+
+			select_function=-1
+			continue
+		;;
+
+
+		p)
+			clear
+			if [[ $( sudo nvpmodel -q | awk '/[0-9]+$/ {print $1}') == 0 ]]; then
+				sudo nvpmodel -m 1
+				sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
+				printf "\nSet to 5W successfully\n"
+			else	
+				#MAXN
+				sudo nvpmodel -m 0
+
+				sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
+				sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu0/online"
+				sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu1/online"
+				sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu2/online"
+				sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu3/online"
+				sudo sh -c "echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
+				sudo sh -c "echo performance > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor"
+				sudo sh -c "echo performance > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor"
+				sudo sh -c "echo performance > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor"
+				printf "\nSet to 10W successfully\n"
+								
+			fi
+	
+			sudo nvpmodel -q
+			
+			printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
+			select_function=-1
+			continue
+		;;
+
+		n)
+			clear
+			sudo systemctl restart nvargus-daemon
+	
+			printf "systemctl restart nvargus-daemon\n";
+			select_function=-1
+			continue
+		;;
+
+		g)
+			clear
+			sudo pgrep ngrok | xargs sudo kill -9
+			sudo /root/ngrok/ngrok start -all &	
+			#sleep 1
+			ngrok_domains=$(sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' )
+			sudo python3 /home/samson/jetson-nano-ai-cam/show.py $ngrok_domains
+
+			printf "ngrok restarted\n";
+			select_function=-1
+			continue
+		;;
+
+		s)
+			clear
+			sudo nmcli device
+			sudo nmcli con 
+			sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' 
+			printf "IP: $myIPAddress\n";
+
+			sudo python3 /home/samson/jetson-nano-ai-cam/info.py
+			printf "Screen updated\n";
+			select_function=-1
+			continue
+		;;
+
 		$'\e') 
 			printf "\n\nEXIT \n\n"
 			exit 0
 			break
+		;;
+
+		*)
+			clear
+			continue
 		;;
 	esac
 
@@ -298,7 +425,7 @@ execute_str=""
 
 printf "\n"
 
-myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | tr '\n' '|' )
+
 
 #--list-ctrls-menus
 ##disable auto exposure 1-disable auto exposure, 3-enable auto exposure
@@ -319,7 +446,6 @@ do
 
 #	printf "0. Select another Device\n"
 	printf "\nFunctions: \n"
-	printf "0. Change FPS to 10\n"
 	printf "1. Display Device details\n"
 	printf "\x1b[;33;1m"
 	printf "2. GUI DEMO Display - HDMI\n"
@@ -332,11 +458,9 @@ do
 	printf "6. Darknet YoloV3-Tiny NO Display MJPG http://$myIPAddress:8090\n"
 	printf "\x1b[0;m"	
 	printf "\e[0;32m"
-	printf "7. 5W Mobile Power Mode\n"
+	printf "7. DEMO MJPG http://$myIPAddress:8090\n"
 	printf "\x1b[0;m"
-	printf "\e[0;32m"
-	printf "8. 10W Barrel 5V 4A Max Power Mode\n"
-	printf "\x1b[0;m"
+
 	
 	read -n1 select_function
 
@@ -346,12 +470,7 @@ do
 			exit 0
 			break
 		;;
-		0)
-			clear
-			framerate=10
-			select_function=-1
-			continue
-		;;
+
 		1)
 			clear
 			execute_str="v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} --list-formats-ext --all"
@@ -372,9 +491,6 @@ do
 				"RG10")					
 					#v4l2src_pipeline_str=${v4l2src_pipeline_str//1640/1920}	
 					#v4l2src_pipeline_str=${v4l2src_pipeline_str//1232/1080}	
-
-					#restart if needed
-					#sudo systemctl restart nvargus-daemon
 
 					v4l2src_display_str="nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=(int)1640, height=(int)1232, format=(string)NV12, framerate=(fraction)30/1' ! nvvidconv flip-method=2 ! nvoverlaysink sync=false async=false"					
 					execute_str="gst-launch-1.0 $v4l2src_display_str -e"
@@ -444,14 +560,14 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
+					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 &"
 				;;
 				*)
 
 					#execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
 					execute_str=$(cat <<EOF
 						$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
-						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} '
+						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} ' &
 EOF
 )
 
@@ -510,7 +626,7 @@ EOF
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 &"
 				;;
 				*)
 
@@ -520,7 +636,7 @@ EOF
 
 					execute_str=$(cat <<EOF
 						$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
-						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} '  
+						gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} '  &
 EOF
 )
 
@@ -541,33 +657,14 @@ EOF
 
 		7)
 			clear
-			sudo nvpmodel -m 1
-			sudo nvpmodel -q
-			sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
-			printf "\nSet to 5W successfully\n"
-			printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
-			sudo systemctl restart nvargus-daemon
+			#to do
 			select_function=-1
 			continue
 		;;
 
 		8)
 			clear
-			#MAXN
-			sudo nvpmodel -m 0
-			sudo nvpmodel -q
-			sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
-			sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu0/online"
-			sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu1/online"
-			sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu2/online"
-			sudo sh -c "echo 1 > /sys/devices/system/cpu/cpu3/online"
-			sudo sh -c "echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor"
-			sudo sh -c "echo performance > /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor"
-			sudo sh -c "echo performance > /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor"
-			sudo sh -c "echo performance > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor"
-			printf "\nSet to 10W successfully\n"
-			printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
-			sudo systemctl restart nvargus-daemon
+
 			select_function=-1
 			continue
 		;;
