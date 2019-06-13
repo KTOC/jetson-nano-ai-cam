@@ -1126,3 +1126,219 @@ Success Congratulations! You've fired the detection event
 Success Congratulations! You've fired the detection event
 2019-06-13.05.34.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=bottle 55%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-050027_0000026715.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
 Success Congratulations! You've fired the detection event
+2019-06-13.05.49.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 59%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000003465.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.16.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 52%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000019221.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.37.07: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police vechicle 68%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000031269.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.42.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police vechicle 42%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000034445.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.51.48: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 44%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000039861.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.56.27: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 52%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000042583.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.57.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 82%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000043007.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.57.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 58%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000043265.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.57.58: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 90%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000043465.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.06.59.07: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 84%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000044174.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.01.58: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 44%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000045871.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.06.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 54%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000048544.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.10.45: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 72%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000051036.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.16.03: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 45%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000054186.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.20.06: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 55%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000056582.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.27.37: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 81%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000061036.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.37.12: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 69%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000066685.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.37.31: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 42%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000066878.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.37.51: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 43%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000067080.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.38.11: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 45%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000067264.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.38.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 45%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000067552.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.39.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 47%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000068058.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.40.00: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 54%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000068327.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.40.23: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 64%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000068549.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.40.43: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 65%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000068743.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.40.56: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 71%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000068866.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.41.16: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000069073.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.41.28: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 53%,traffic warden 43%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000069215.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.42.56: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 46%,police 46%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000070046.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.52.44: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 61%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000075823.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.54.40: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 68%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000076992.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.07.59.47: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 69%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000080038.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.00.54: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 83%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000080649.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.04.37: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 54%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000082861.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.10.25: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 74%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000086306.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.11.17: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 65%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000086807.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.12.48: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 71%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000087685.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.14.00: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 54%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000088335.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.15.31: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000089286.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.15.46: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 91%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000089407.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.15.59: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 59%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000089527.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.16.58: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 47%,police 40%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000090116.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.17.11: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 73%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000090225.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.19.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 40%,traffic warden 55%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000091673.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.21.20: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000092709.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.22.06: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 50%,traffic warden 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000093157.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.27.35: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 40%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000096319.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.29.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 64%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000097518.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.31.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 42%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000098658.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.32.28: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 56%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000099207.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.33.15: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 54%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000099704.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.33.46: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 62%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000099964.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.33.57: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 54%,police 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000100092.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.34.16: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 76%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000100247.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.34.42: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000100512.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.35.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 40%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000100773.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.37.37: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 91%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000102224.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.38.39: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 47%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000102823.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.45.09: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 61%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000106634.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.08.58.17: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000114400.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.01.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 48%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000116119.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.01.26: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 87%,traffic warden 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000116296.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.01.37: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 44%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000116416.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.01.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 55%,traffic warden 55%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000116552.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.02.06: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 50%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000116671.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.02.25: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 53%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000116855.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.02.37: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 51%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000116962.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.02.52: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 50%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000117106.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.03.09: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 87%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000117267.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.03.20: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 44%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000117386.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.03.39: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 47%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000117584.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.04.20: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 96%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000117976.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.05.21: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 82%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000118584.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.06.16: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 70%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000119112.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.06.27: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 46%,traffic warden 70%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000119212.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.06.48: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 65%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000119408.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.07.03: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 43%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000119572.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.07.51: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 58%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000120022.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.08.02: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 47%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000120130.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.08.14: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 52%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000120235.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.08.24: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 77%,traffic warden 47%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000120330.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.14.25: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 62%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000123880.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.09.16.37: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 77%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-054327_0000125194.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.18.27.44: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 43%,traffic warden 50%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000000092.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.29.24: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 50%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000000990.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.32.26: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 76%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000002753.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.33.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 48%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000003431.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.35.40: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 67%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000004605.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.35.55: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 60%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000004751.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.36.14: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 89%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000004935.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.38.51: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 60%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000006432.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.40.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 52%,police 79%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000007183.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.42.32: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 89%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000008489.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.44.35: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=traffic warden 46%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000009696.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.46.54: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 77%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000011002.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.50.23: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 41%,traffic warden 60%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000012950.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.54.07: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 93%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000015129.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.18.57.00: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 90%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000016727.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.19.03.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 66%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000020566.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.19.08.27: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 75%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-182711_0000023290.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.19.11.32: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 75%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000000334.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.19.16.12: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 82%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000003019.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.19.20.56: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 70%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000005703.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.19.23.56: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000007432.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.19.28.03: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 72%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000009770.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.19.33.17: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 87%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000012689.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-13.19.38.08: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 43%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000015478.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-13.19.43.51: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 72%,police 62%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190613-191040_0000018698.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event

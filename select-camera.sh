@@ -10,6 +10,7 @@ clear
 #Check if mobile device is plugged in, if yes and  not activated, try to activate it
 mobile_device_name=$(nmcli con show | awk ' /mobile_network/ {print $4}')
 if [[ $mobile_device_name == "--" ]]; then
+	lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo /home/samson/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
 	sudo nmcli con up mobile_network
 	sudo nmcli con mod mobile_network connection.autoconnect yes
 fi
@@ -320,6 +321,9 @@ do
 			clear
 			sudo nmcli device
 			sudo nmcli con 
+			sudo lsusb 
+			sudo modem-manager.mmcli -L
+			#sudo modem-manager.mmcli -m 2
 			sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' 
 			printf "IP: $myIPAddress\n";
 
