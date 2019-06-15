@@ -1,8 +1,100 @@
 #/bin/bash
 
+
 ##need to implement a checl for existing files for $2
 
 today=`date +%Y-%m-%d.%H.%M.%S`
+
+clear
+/home/samson/skip_sudo.sh
+
+connection_successful=false
+retry_count=0
+modem_id=0
+
+while [[ "$retry_count"<5 && "$connection_successful" != true ]];
+do
+	#Check if poing 1.1.1.1 is successful
+	if ping -q -c 1 -W 1 1.1.1.1 >/dev/null; then
+		echo "IPv4 is up"
+		connection_successful=true
+
+	else
+		echo "IPv4 is down"
+
+
+		##check modem
+		#sudo mmcli -m 0 -r ##hardware pin is broken
+		if [[ $(  mmcli -m $modem_id --output-keyvalue | awk ' /power/ { print $3 } ') == 'on' ]]; then
+			if [[ $( mmcli -m $modem_id --output-keyvalue | awk ' /modem.generic.state / { print $3 } ') == 'connected' ]]; then
+
+				#check signal strength
+				signal_quality=$(mmcli -m $modem_id --output-keyvalue | awk ' /signal-quality.value/ { print $3 } ')
+				echo "Signal Quality: $signal_quality"
+
+				sudo nmcli con down mobile_network
+				sudo nmcli con up mobile_network
+
+				sleep 10
+				#recheck
+				if ping -q -c 1 -W 1 1.1.1.1 >/dev/null; then
+					echo "IPv4 is up"
+					connection_successful=true
+					continue
+				else
+					echo "nmcli con up fail, trying reset USB"
+					if [[ -e $(lsusb | grep Modem) ]]; then
+						lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo /home/samson/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
+						#modem_id would change as well
+						((modem_id++))
+
+						sleep 10
+
+						sudo nmcli con up mobile_network
+
+						if ping -q -c 1 -W 1 1.1.1.1 >/dev/null; then
+							echo "IPv4 is up"
+							connection_successful=true
+							continue
+						else
+							echo "ERROR, cannot resolve issue";
+						fi
+
+					else
+						printf "Modem Not found, maybe need to replug or maybe you need reboot\n"
+					fi
+				fi
+
+			else
+				echo "Not connected, trying disable and re-enable"
+
+				#DISABLE AND RE-ENABLE MODEM
+				sudo mmcli -m 0 -d
+				sudo mmcli -m 0 -e
+			fi
+
+			#restart ngrok if needed
+			sudo pgrep ngrok | xargs sudo kill -9
+			sudo /root/ngrok/ngrok start -all &	
+			#sleep 1
+			ngrok_domains=$(sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' )
+			sudo python3 /home/samson/jetson-nano-ai-cam/show.py $ngrok_domains
+
+			printf "ngrok restarted\n";
+
+		else
+			echo "Modem poweroff"
+		fi
+
+		
+	fi
+
+
+	((retry_count++))
+	((modem_id++))
+done
+
+
 
 #-X for debug
 curl_str=$(cat <<EOF

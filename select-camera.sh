@@ -9,11 +9,29 @@ clear
 
 #Check if mobile device is plugged in, if yes and  not activated, try to activate it
 mobile_device_name=$(nmcli con show | awk ' /mobile_network/ {print $4}')
-if [[ $mobile_device_name == "--" ]]; then
-	lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo /home/samson/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
+if [[ $mobile_device_name == "--" && -e $(lsusb | grep Modem) ]]; then
+	
 	sudo nmcli con up mobile_network
 	sudo nmcli con mod mobile_network connection.autoconnect yes
 fi
+
+
+#enable location
+
+modem_id=0
+
+sudo mmcli -m $modem_id --messaging-list-sms
+sudo mmcli -m $modem_id --location-enable-3gpp > /dev/null
+sudo mmcli -m $modem_id --location-enable-agps > /dev/null
+sudo mmcli -m $modem_id --location-enable-gps-nmea > /dev/null
+sudo mmcli -m $modem_id --location-enable-gps-raw > /dev/null
+sudo mmcli -m $modem_id --location-enable-cdma-bs > /dev/null
+sudo mmcli -m $modem_id --location-enable-gps-unmanaged > /dev/null
+sudo mmcli -m $modem_id --location-set-enable-signal > /dev/null
+sudo mmcli -m $modem_id --location-status > /dev/null
+
+clear
+sudo mmcli -m $modem_id --location-get
 
 #Check if jetson_hotspot is enabled, if yes and  not activated, try to activate it
 jetson_hotspot=$(nmcli con show | awk ' /jetson_hotspot/ {print $4}')
@@ -30,7 +48,7 @@ shopt -s nullglob
 video_camera_array=(/dev/video*)
 shopt -u nullglob # Turn off nullglob to make sure it doesn't interfere with anything later
 
-printf "No of CPU: $(grep -c ^processor /proc/cpuinfo)\n";
+sudo nvpmodel -q
 
 if (( ${#video_camera_array[@]} == 0 )); then
     echo "No Cameras found" >&2
@@ -210,9 +228,13 @@ do
 	printf "p. Toggle Power Mode\n"
 	printf "h. Reset Jetson Hotspot\n"
 	printf "m. Reset Mobile Network\n"
-	printf "n. Reset nvargus-daemon\n"
+	printf "n. Network Configurator\n"
+	printf "c. Reset onboard camera with nvargus-daemon\n"
 	printf "g. Reset ngrok\n"
+	printf "t. Send Test Notification\n"
 	printf "s. Show info\n"
+	printf "r. Reboot\n"
+	printf "o. Shutdown\n"
 
 	printf "\nWhich Camera would you like to use? "
 	read -p "[0-${end_num}]: " -n1 camera_num	
@@ -237,10 +259,10 @@ do
 
 		f)
 			clear
-			if [ $framerate == 10 ]; then
-				framerate=5
-			else	
+			if [ $framerate == 30 ]; then
 				framerate=10
+			else	
+				framerate=30
 			fi
 	
 			printf "New Framerate: $framerate\n";
@@ -295,11 +317,50 @@ do
 			continue
 		;;
 
-		n)
+		m)
+			clear
+
+			sudo nmcli device
+			sudo nmcli con 
+
+			sudo mmcli -m 0 -d
+			sudo mmcli -m 0 -e
+			#sudo mmcli -m 0 -r ##hardware pin is broken
+
+
+			mobile_device_name=$(nmcli con show | awk ' /mobile_network/ {print $4}')
+			if [[ $mobile_device_name == "--" && -e $(lsusb | grep Modem) ]]; then
+				lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo /home/samson/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
+
+				sudo mmcli -m 0 -d
+				sudo mmcli -m 0 -e
+
+				sudo nmcli con up mobile_network
+				sudo nmcli con mod mobile_network connection.autoconnect yes
+
+
+			else
+				printf "Modem Not found, maybe need to replug or maybe you need reboot\n"
+			fi
+			select_function=-1
+			continue
+		;;
+
+
+		c)
 			clear
 			sudo systemctl restart nvargus-daemon
 	
 			printf "systemctl restart nvargus-daemon\n";
+			select_function=-1
+			continue
+		;;
+
+		t)
+			clear
+			printf "Sending Test Message\n";
+			/home/samson/jetson-nano-ai-cam/send_http.sh "Test from: $myIPAddress" "/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg";
+
 			select_function=-1
 			continue
 		;;
@@ -317,13 +378,17 @@ do
 			continue
 		;;
 
+
+
 		s)
 			clear
 			sudo nmcli device
 			sudo nmcli con 
 			sudo lsusb 
 			sudo modem-manager.mmcli -L
+			sudo mmcli -m $modem_id
 			#sudo modem-manager.mmcli -m 2
+
 			sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' 
 			printf "IP: $myIPAddress\n";
 
@@ -333,6 +398,29 @@ do
 			continue
 		;;
 
+
+		n)
+			clear
+			sudo nmtui 
+			select_function=-1
+			continue
+		;;
+
+		r)
+			clear
+			printf "Reboot in 2s\n";
+			sleep 2
+			sudo systemctl reboot -i
+		;;
+
+		o)
+			clear
+			printf "Shutdown in 3s\n";
+			sleep 3
+			sudo systemctl poweroff -i
+		;;
+
+
 		$'\e') 
 			printf "\n\nEXIT \n\n"
 			exit 0
@@ -341,13 +429,15 @@ do
 
 		*)
 			clear
+			select_function=-1
 			continue
 		;;
 	esac
 
+
 done
 
-printf "\nChosen: ${VIDEO_CAMERA_INPUTS[$camera_num,1]} ${VIDEO_CAMERA_INPUTS[$camera_num,0]}\n"
+printf "Chosen: ${VIDEO_CAMERA_INPUTS[$camera_num,1]} ${VIDEO_CAMERA_INPUTS[$camera_num,0]}\n"
 
 
 darknet_police_str="./darknet detector demo ./cfg/samson-obj.data ./cfg/samson-yolov3-tiny.cfg backup/samson-yolov3-tiny_final.weights "
@@ -447,7 +537,7 @@ while  ! [[ ( "${select_function}" =~ ${regex} )  ]];
 do
 
 #	printf "0. Select another Device\n"
-	printf "\nFunctions: \n"
+	printf "Functions: \n"
 	printf "1. Display Device details\n"
 	printf "\x1b[;33;1m"
 	printf "2. GUI DEMO Display - HDMI\n"
@@ -517,6 +607,7 @@ do
 			printf "\nDebug: $execute_str\n"
 	
 			eval $execute_str
+			select_function=-1
 			continue
 		;;
 
@@ -548,6 +639,7 @@ do
 			
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
+			select_function=-1
 			continue
 		;;
 
@@ -579,6 +671,7 @@ EOF
 
 			printf "\nDebug: $execute_str\n"
 			eval $execute_str
+			sudo pgrep darknet
 			continue
 		;;		
 
@@ -652,8 +745,7 @@ EOF
 			printf "\nDebug: \n$execute_str\n"
 			eval $execute_str
 
-			##curl -X POST -H "Content-Type: application/json" -d '{"value1":"he","value2":"12","value3":"345"}' 
-
+			sudo pgrep darknet
 			continue
 		;;	
 
