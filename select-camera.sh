@@ -20,18 +20,22 @@ fi
 
 modem_id=0
 
-sudo mmcli -m $modem_id --messaging-list-sms
-sudo mmcli -m $modem_id --location-enable-3gpp > /dev/null
-sudo mmcli -m $modem_id --location-enable-agps > /dev/null
-sudo mmcli -m $modem_id --location-enable-gps-nmea > /dev/null
-sudo mmcli -m $modem_id --location-enable-gps-raw > /dev/null
-sudo mmcli -m $modem_id --location-enable-cdma-bs > /dev/null
-sudo mmcli -m $modem_id --location-enable-gps-unmanaged > /dev/null
-sudo mmcli -m $modem_id --location-set-enable-signal > /dev/null
-sudo mmcli -m $modem_id --location-status > /dev/null
+if [[ -e $(lsusb | grep Modem) ]]; then
 
-clear
-sudo mmcli -m $modem_id --location-get
+	sudo mmcli -m $modem_id --messaging-list-sms
+	sudo mmcli -m $modem_id --location-enable-3gpp > /dev/null
+	sudo mmcli -m $modem_id --location-enable-agps > /dev/null
+	sudo mmcli -m $modem_id --location-enable-gps-nmea > /dev/null
+	sudo mmcli -m $modem_id --location-enable-gps-raw > /dev/null
+	sudo mmcli -m $modem_id --location-enable-cdma-bs > /dev/null
+	sudo mmcli -m $modem_id --location-enable-gps-unmanaged > /dev/null
+	sudo mmcli -m $modem_id --location-set-enable-signal > /dev/null
+	sudo mmcli -m $modem_id --location-status > /dev/null
+
+	clear
+	sudo mmcli -m $modem_id --location-get
+
+fi
 
 #Check if jetson_hotspot is enabled, if yes and  not activated, try to activate it
 jetson_hotspot=$(nmcli con show | awk ' /jetson_hotspot/ {print $4}')
@@ -661,7 +665,7 @@ do
 					#execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
 					execute_str=$(cat <<EOF
 $darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
-gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} ' &
+gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh " "\"" \$2 "\" " \$3)} ' &
 EOF
 )
 

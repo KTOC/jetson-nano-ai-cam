@@ -1378,3 +1378,183 @@ Success Congratulations! You've fired the detection event
 Success Congratulations! You've fired the detection event
 2019-06-16.05.26.32: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person 45%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190616-050935_0000012542.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
 Success Congratulations! You've fired the detection event
+2019-06-16.05.29.46: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190616-050935_0000015004.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-16.05.35.02: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190616-050935_0000018994.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-16.05.39.04: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person 41%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190616-050935_0000021984.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-16.05.41.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person 51%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190616-054018_0000000139.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-16.05.47.18: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=person 48%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190616-054609_0000000724.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-16.05.49.20: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.1.11|192.168.55.1|10.4.62.151|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-16.05.51.13: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.1.11|192.168.55.1|10.4.62.151|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-16.22.30.45: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.55.1|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-17.00.50.30: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.55.1|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+
+2019-06-18.13.22.21: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.55.1|10.49.99.244|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-18.13.31.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.55.1|10.4.36.252|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-18.16.34.23: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.55.1|10.4.36.252|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-19.01.02.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: 192.168.1.11|192.168.55.1|192.168.2.1|' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-19.13.36.18: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: ' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-19.13.36.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: ' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-19.13.48.54: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=Test from: ' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+Success Congratulations! You've fired the detection event
+2019-06-19.13.56.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.56.49: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.56.57: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.57.08: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.58.00: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.58.00: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.58.01: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.58.05: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.59.27: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.59.27: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.13.59.27: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.02.35: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.02.35: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.02.35: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.02.40: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.06: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.06: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.07: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.11: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.22: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.33: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.41: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.03.51: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.09: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.15: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.25: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.36: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.44: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.04.54: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.06.47: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.06.47: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.06.47: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.06.52: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.03: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.13: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.21: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.40: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.41: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.41: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.46: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.07.56: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.07: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.15: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.26: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.38: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.43: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.08.54: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.09.05: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.09.05: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.09.06: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.09.10: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.09.21: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.09.29: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.11.51: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-134148_0000000001.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.11.51: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-134148_0000000002.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.11.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-134148_0000000003.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.11.56: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-134148_0000000044.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.12.07: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-134148_0000000113.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.12.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.12.53: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.12.54: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.12.58: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.13.09: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.13.26: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-141318_0000000001.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+
+2019-06-19.14.13.27: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-141318_0000000002.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.13.28: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-141318_0000000003.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.13.32: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-141318_0000000041.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.13.42: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-141318_0000000113.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.13.50: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-141318_0000000185.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event
+2019-06-19.14.14.01: curl -s -X POST -H 'Content-Type: multipart/form-data' 	-F 'gps=0.0,0.0' 	-F 'detected_object=police 95%,police 90%,police 75%,police 57%,police 57%' 	-F 'app_id=1234' 	-F 'app_token=42134' 	-F 'files=@/home/samson/images/d20190619-141318_0000000253.jpg' 	-F 'simple_form=1' https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log:/home/samson/jetson-nano-ai-cam/send_http.sh
+Success Congratulations! You've fired the detection event

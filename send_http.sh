@@ -1,4 +1,4 @@
-#/bin/bash
+#/bin/bash 
 
 
 ##need to implement a checl for existing files for $2
@@ -12,12 +12,16 @@ connection_successful=false
 retry_count=0
 modem_id=0
 
-while [[ "$retry_count"<5 && "$connection_successful" != true ]];
+set -x
+
+while [  "$retry_count" -le 5  -a !"$connection_successful"  ]
+#while ! [[ ( "${camera_num}" =~ ${regex} ) && ("$camera_num" -ge 0) && ("$camera_num" -lt ${#video_camera_array[@]})  ]];
 do
 	#Check if poing 1.1.1.1 is successful
 	if ping -q -c 1 -W 1 1.1.1.1 >/dev/null; then
 		echo "IPv4 is up"
 		connection_successful=true
+		break;
 
 	else
 		echo "IPv4 is down"
@@ -110,7 +114,7 @@ https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nan
 EOF
 )
 
-echo "$today: $curl_str" >> /home/samson/jetson-nano-ai-cam/send_http.log
+echo "$today: $curl_str:$0" >> /home/samson/jetson-nano-ai-cam/send_http.log
 
 
 #ARGV[2]
