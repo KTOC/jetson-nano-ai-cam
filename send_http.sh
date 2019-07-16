@@ -12,7 +12,8 @@ connection_successful=false
 retry_count=0
 modem_id=0
 
-set -x
+##set -x for debug
+#set -x
 
 while [  "$retry_count" -le 5  -a !"$connection_successful"  ]
 #while ! [[ ( "${camera_num}" =~ ${regex} ) && ("$camera_num" -ge 0) && ("$camera_num" -lt ${#video_camera_array[@]})  ]];
@@ -39,7 +40,7 @@ do
 				sudo nmcli con down mobile_network
 				sudo nmcli con up mobile_network
 
-				sleep 10
+				sleep 20
 				#recheck
 				if ping -q -c 1 -W 1 1.1.1.1 >/dev/null; then
 					echo "IPv4 is up"
@@ -52,7 +53,7 @@ do
 						#modem_id would change as well
 						((modem_id++))
 
-						sleep 10
+						sleep 20
 
 						sudo nmcli con up mobile_network
 

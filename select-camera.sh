@@ -138,38 +138,59 @@ do
 	#sort it reverse
 	sorted_array=($(sort -t 'x' -k 2n <<<"${temp_array[*]}"))
 
+	##echo "Sorted array: ${sorted_array[*]}"
+
 	VIDEO_CAMERA_INPUTS[$i,4]="${sorted_array[-1]}" ##THE hight resolution the cam can do
 
 	selected_width=0
 	selected_height=0
 
-	##test if it can do 30 fps by testing with string 30.000 fps
-	for ((j=${#sorted_array[@]}-1; j>=0; j-- ));
-	do
-		this_res="${sorted_array[$j]}"
-		#printf  "\n[$j) $this_res]: "
-		this_width=$( printf ${this_res} | cut -d 'x' -f 1 ) 
-		this_height=$( printf ${this_res} | cut -d 'x' -f 2 ) 
 
-		selected_width=$this_width
-		selected_height=$this_height
+	##Manual test if 1920x1080 30fps is supported, if yes, then use if
+	this_fps_string="$( v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$i,0]} --list-frameintervals=width=1920,height=1080,pixelformat=${VIDEO_CAMERA_INPUTS[$i,2]} )"
 
-		#printf  "debug: v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$i,0]} --list-frameintervals=width=$this_width,height=$this_height,pixelformat=${VIDEO_CAMERA_INPUTS[$i,2]} \n"
+	#printf  "$this_fps_string"
 
-		this_fps_string="$( v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$i,0]} --list-frameintervals=width=$this_width,height=$this_height,pixelformat=${VIDEO_CAMERA_INPUTS[$i,2]} )"
 
-		##printf  "$this_fps_string"
+	if [[ $this_fps_string ==  *"30.000 fps"* ]]; then
+		#printf "yes\n"
+		framerate=30
+		selected_width=1920
+		selected_height=1080
+	fi
 
-		if [[ $this_fps_string ==  *"30.000 fps"* ]]; then
-			#printf "yes\n"
-			framerate=30
-			break	##break loop, as it is supported, not need find another one
-		else
-			#if it cannot find 30fps, it will revert to 5fps, just incase		
-			framerate=5
-		fi
+	##skip test if 1920x1080 works
+	if [[ $selected_width == "0" ]]; then
 
-	done
+		##test if it can do 30 fps by testing with string 30.000 fps
+		for ((j=${#sorted_array[@]}-1; j>=0; j-- ));
+		do
+			this_res="${sorted_array[$j]}"
+			#printf  "\n[$j) $this_res]: "
+			this_width=$( printf ${this_res} | cut -d 'x' -f 1 ) 
+			this_height=$( printf ${this_res} | cut -d 'x' -f 2 ) 
+
+			selected_width=$this_width
+			selected_height=$this_height
+
+			#printf  "debug: v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$i,0]} --list-frameintervals=width=$this_width,height=$this_height,pixelformat=${VIDEO_CAMERA_INPUTS[$i,2]} \n"
+
+			this_fps_string="$( v4l2-ctl --device=${VIDEO_CAMERA_INPUTS[$i,0]} --list-frameintervals=width=$this_width,height=$this_height,pixelformat=${VIDEO_CAMERA_INPUTS[$i,2]} )"
+
+			##printf  "$this_fps_string"
+
+			if [[ $this_fps_string ==  *"30.000 fps"* ]]; then
+				#printf "yes\n"
+				framerate=30
+				break	##break loop, as it is supported, not need find another one
+			else
+				#if it cannot find 30fps, it will revert to 5fps, just incase		
+				framerate=5
+			fi
+
+		done
+
+	fi
 	
 
 	#echo "Final array: ${sorted_array[*]}"
@@ -658,13 +679,13 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 &"
+					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.15 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 &"
 				;;
 				*)
 
 					#execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
 					execute_str=$(cat <<EOF
-$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
+$darknet_police_str -c $camera_num -thresh 0.15 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
 gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh " "\"" \$2 "\" " \$3)} ' &
 EOF
 )
@@ -695,12 +716,12 @@ EOF
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.1"
 				;;
 				*)
 
 					#execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4"
-					execute_str="$darknet_coco_str -c $camera_num -thresh 0.4"
+					execute_str="$darknet_coco_str -c $camera_num -thresh 0.1"
 				;;
 			esac
 
