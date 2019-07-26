@@ -16,6 +16,7 @@ if [[ $mobile_device_name == "--" && -e $(lsusb | grep Modem) ]]; then
 fi
 
 
+
 #enable location
 
 modem_id=0
