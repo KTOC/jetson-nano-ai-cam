@@ -30,7 +30,7 @@ do
 
 		##check modem
 		#sudo mmcli -m 0 -r ##hardware pin is broken
-		if [[ $(  mmcli -m $modem_id --output-keyvalue | awk ' /power/ { print $3 } ') == 'on' ]]; then
+		if [[ $( mmcli -m $modem_id --output-keyvalue | awk ' /power/ { print $3 } ') == 'on' ]]; then
 			if [[ $( mmcli -m $modem_id --output-keyvalue | awk ' /modem.generic.state / { print $3 } ') == 'connected' ]]; then
 
 				#check signal strength
@@ -95,8 +95,8 @@ do
 	fi
 
 
-	((retry_count++))
-	((modem_id++))
+	((retry_count+=1))
+	((modem_id+=1))
 done
 
 

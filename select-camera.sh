@@ -53,7 +53,8 @@ shopt -s nullglob
 video_camera_array=(/dev/video*)
 shopt -u nullglob # Turn off nullglob to make sure it doesn't interfere with anything later
 
-sudo nvpmodel -q
+#sudo nvpmodel -q
+sudo jetson_clocks --show
 
 if (( ${#video_camera_array[@]} == 0 )); then
     echo "No Cameras found" >&2
