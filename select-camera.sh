@@ -54,7 +54,11 @@ video_camera_array=(/dev/video*)
 shopt -u nullglob # Turn off nullglob to make sure it doesn't interfere with anything later
 
 #sudo nvpmodel -q
+#sudo jetson_clocks --store
+sudo jetson_clocks
+echo 255 | sudo tee /sys/devices/pwm-fan/target_pwm
 sudo jetson_clocks --show
+
 
 if (( ${#video_camera_array[@]} == 0 )); then
     echo "No Cameras found" >&2
@@ -555,8 +559,10 @@ printf "\n"
 
 #read
 
-
-
+## create needed dir
+if [ ! -d /home/samson/images ]; then
+  mkdir -p /home/samson/images;
+fi
 
 regex=^[0-9]+$
 

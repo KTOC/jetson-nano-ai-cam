@@ -1,0 +1,119 @@
+diff --git a/gst-jpeg-1.0/ext/jpeg/gstjpegdec.c b/gst-jpeg-1.0/ext/jpeg/gstjpegdec.c
+index 6b91027..a011610 100644
+--- a/gst-jpeg-1.0/ext/jpeg/gstjpegdec.c
++++ b/gst-jpeg-1.0/ext/jpeg/gstjpegdec.c
+@@ -47,6 +47,10 @@
+ #include "gst/gst-i18n-plugin.h"
+ #include <jerror.h>
+ 
++#ifdef USE_TARGET_TEGRA
++#include "nvbuf_utils.h"
++#endif
++
+ #define MIN_WIDTH  1
+ #define MAX_WIDTH  65535
+ #define MIN_HEIGHT 1
+@@ -1065,6 +1069,16 @@ gst_jpeg_dec_negotiate (GstJpegDec * dec, gint width, gint height, gint clrspc)
+   return gst_video_decoder_negotiate (GST_VIDEO_DECODER (dec));
+ }
+ 
++#ifdef USE_TARGET_TEGRA
++static void
++notify_to_destroy (gpointer user_data)
++{
++    GST_INFO ("NvBufferDestroy(%d)", *(int *)user_data);
++    NvBufferDestroy(*(int *)user_data);
++    g_free(user_data);
++}
++#endif
++
+ static GstFlowReturn
+ gst_jpeg_dec_handle_frame (GstVideoDecoder * bdec, GstVideoCodecFrame * frame)
+ {
+@@ -1076,6 +1090,9 @@ gst_jpeg_dec_handle_frame (GstVideoDecoder * bdec, GstVideoCodecFrame * frame)
+   guint code, hdr_ok;
+   gboolean need_unmap = TRUE;
+   GstVideoCodecState *state = NULL;
++#ifdef USE_TARGET_TEGRA
++  int dmabuf_fd = 0;
++#endif
+ 
+   dec->current_frame = frame;
+   gst_buffer_map (frame->input_buffer, &dec->current_frame_map, GST_MAP_READ);
+@@ -1190,15 +1207,28 @@ gst_jpeg_dec_handle_frame (GstVideoDecoder * bdec, GstVideoCodecFrame * frame)
+ 
+ #ifdef USE_TARGET_TEGRA
+   if (dec->cinfo.IsVendorbuf) {
+-    GstMapInfo map = GST_MAP_INFO_INIT;
+-
+-    gst_buffer_map (frame->output_buffer, &map, GST_MAP_READ);
+-    dec->cinfo.pVendor_buf = map.data;
+-    gst_buffer_unmap (frame->output_buffer, &map);
+-
+-    gst_mini_object_set_qdata ((GstMiniObject *) frame->output_buffer,
+-        g_quark_from_static_string ("NV_BUF"), (gpointer) NVBUF_MAGIC_NUM,
+-        NULL);
++    gpointer data = NULL;
++
++    dec->cinfo.pVendor_buf = NULL;
++    data = gst_mini_object_get_qdata ((GstMiniObject *)frame->output_buffer, g_quark_from_static_string("NV_BUF"));
++    if (data == (gpointer)NVBUF_MAGIC_NUM)
++    {
++      data = gst_mini_object_get_qdata ((GstMiniObject *)frame->output_buffer, g_quark_from_static_string("DMABUF_FD"));
++      dmabuf_fd = *(int *)data;
++    }
++    else
++    {
++      NvBufferCreate(&dmabuf_fd, width, height, NvBufferLayout_Pitch, NvBufferColorFormat_YUV420);
++      data = g_malloc(sizeof(int));
++      GST_INFO ("NvBufferCreate %d", dmabuf_fd);
++      *(int *)data = dmabuf_fd;
++      gst_mini_object_set_qdata ((GstMiniObject *) frame->output_buffer,
++          g_quark_from_static_string ("NV_BUF"), (gpointer) NVBUF_MAGIC_NUM,
++          NULL);
++      gst_mini_object_set_qdata ((GstMiniObject *) frame->output_buffer,
++          g_quark_from_static_string ("DMABUF_FD"), data,
++          notify_to_destroy);
++    }
+   }
+ #endif
+ 
+@@ -1242,6 +1272,37 @@ gst_jpeg_dec_handle_frame (GstVideoDecoder * bdec, GstVideoCodecFrame * frame)
+   GST_LOG_OBJECT (dec, "decompressing finished");
+   jpeg_finish_decompress (&dec->cinfo);
+ 
++#ifdef USE_TARGET_TEGRA
++  if (dec->cinfo.IsVendorbuf) {
++    NvBufferRect src_rect, dest_rect;
++    NvBufferTransformParams transform_params;
++    NvBufferParams par;
++    GstMapInfo map = GST_MAP_INFO_INIT;
++
++    src_rect.top = 0;
++    src_rect.left = 0;
++    src_rect.width = width;
++    src_rect.height = height;
++    dest_rect.top = 0;
++    dest_rect.left = 0;
++    dest_rect.width = width;
++    dest_rect.height = height;
++
++    memset(&transform_params, 0, sizeof(transform_params));
++    transform_params.transform_flag = NVBUFFER_TRANSFORM_FILTER | NVBUFFER_TRANSFORM_CROP_SRC;
++    transform_params.transform_flip = NvBufferTransform_None;
++    transform_params.transform_filter = NvBufferTransform_Filter_Smart;
++    transform_params.src_rect = src_rect;
++    transform_params.dst_rect = dest_rect;
++    NvBufferTransform(dec->cinfo.fd, dmabuf_fd, &transform_params);
++
++    NvBufferGetParams (dmabuf_fd, &par);
++    gst_buffer_map (frame->output_buffer, &map, GST_MAP_WRITE);
++    memcpy(map.data, par.nv_buffer , par.nv_buffer_size);
++    gst_buffer_unmap(frame->output_buffer, &map);
++  }
++#endif
++
+   gst_buffer_unmap (frame->input_buffer, &dec->current_frame_map);
+   ret = gst_video_decoder_finish_frame (bdec, frame);
+   need_unmap = FALSE;
+
