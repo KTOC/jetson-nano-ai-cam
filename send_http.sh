@@ -12,6 +12,8 @@ connection_successful=false
 retry_count=0
 modem_id=0
 
+modem_id=$( sudo modem-manager.mmcli -L | awk ' /Modem\// { print $1 }' | awk -F/ '{print $NF}' )
+
 ##set -x for debug
 #set -x
 
@@ -53,7 +55,8 @@ do
 						#modem_id would change as well
 						((modem_id++))
 
-						sleep 20
+						## takes 25s to re-setup and inititalize and usb_switch and register
+						sleep 47
 
 						sudo nmcli con up mobile_network
 
@@ -74,8 +77,8 @@ do
 				echo "Not connected, trying disable and re-enable"
 
 				#DISABLE AND RE-ENABLE MODEM
-				sudo mmcli -m 0 -d
-				sudo mmcli -m 0 -e
+				sudo mmcli -m $modem_id -d
+				sudo mmcli -m $modem_id -e
 			fi
 
 			#restart ngrok if needed
