@@ -5,7 +5,7 @@ myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[
 
 
 clear
-/home/samson/skip_sudo.sh
+~/skip_sudo.sh
 
 #Check if mobile device is plugged in, if yes and  not activated, try to activate it
 mobile_device_name=$(nmcli con show | awk ' /mobile_network/ {print $4}')
@@ -277,11 +277,11 @@ do
 			if [[ $post_to_server == true ]]; then
 				post_to_server=false
 				printf "Will not send to server\n";
-				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Will Not send to server"
+				sudo python3 ~/jetson-nano-ai-cam/show.py "Will Not send to server"
 			else
 				post_to_server=true
 				printf "Will send to server\n";
-				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Will send to server"
+				sudo python3 ~/jetson-nano-ai-cam/show.py "Will send to server"
 			fi
 
 			select_function=-1
@@ -306,10 +306,10 @@ do
 			clear
 			if [[ $(sudo pgrep darknet) == "" ]]; then
 				printf "Darknet process Not found\n";
-				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Darknet not found"
+				sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet not found"
 			else
 				sudo pgrep darknet | xargs sudo kill -9
-				sudo python3 /home/samson/jetson-nano-ai-cam/show.py "Darknet killed"
+				sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet killed"
 				printf "All darknet process killed\n";
 			fi
 
@@ -361,7 +361,7 @@ do
 
 			mobile_device_name=$(nmcli con show | awk ' /mobile_network/ {print $4}')
 			if [[ $mobile_device_name == "--" && -e $(lsusb | grep Modem) ]]; then
-				lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo /home/samson/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
+				lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo ~/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
 
 				sudo mmcli -m 0 -d
 				sudo mmcli -m 0 -e
@@ -390,7 +390,7 @@ do
 		t)
 			clear
 			printf "Sending Test Message\n";
-			/home/samson/jetson-nano-ai-cam/send_http.sh "Test from: $myIPAddress" "/home/samson/jetson-nano-ai-cam/demo-jetson-nano.jpg";
+			~/jetson-nano-ai-cam/send_http.sh "Test from: $myIPAddress" "~/jetson-nano-ai-cam/demo-jetson-nano.jpg";
 
 			select_function=-1
 			continue
@@ -402,7 +402,7 @@ do
 			sudo /root/ngrok/ngrok start -all &	
 			#sleep 1
 			ngrok_domains=$(sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' )
-			sudo python3 /home/samson/jetson-nano-ai-cam/show.py $ngrok_domains
+			sudo python3 ~/jetson-nano-ai-cam/show.py $ngrok_domains
 
 			printf "ngrok restarted\n";
 			select_function=-1
@@ -423,7 +423,7 @@ do
 			sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' 
 			printf "IP: $myIPAddress\n";
 
-			sudo python3 /home/samson/jetson-nano-ai-cam/info.py
+			sudo python3 ~/jetson-nano-ai-cam/info.py
 			printf "Screen updated\n";
 			select_function=-1
 			continue
@@ -560,8 +560,8 @@ printf "\n"
 #read
 
 ## create needed dir
-if [ ! -d /home/samson/images ]; then
-  mkdir -p /home/samson/images;
+if [ ! -d ~/images ]; then
+  mkdir -p ~/images;
 fi
 
 regex=^[0-9]+$
@@ -646,7 +646,7 @@ do
 
 		3)
 			clear
-			cd /home/samson/install_yolo/AlexeyAB/darknet
+			cd ~/AlexeyAB/darknet
 
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -678,7 +678,7 @@ do
 
 		4)
 			clear
-			cd /home/samson/install_yolo/AlexeyAB/darknet
+			cd ~/AlexeyAB/darknet
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
 
@@ -687,15 +687,21 @@ do
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.15 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 &"
+					execute_str="$darknet_police_str \"$v4l2src_pipeline_str -e\" -thresh 0.15 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 &"
 				;;
 				*)
 
-					#execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070"
-					execute_str=$(cat <<EOF
-$darknet_police_str -c $camera_num -thresh 0.15 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
-gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh " "\"" \$2 "\" " \$3)} ' &
+					#execute_str="$darknet_police_str -c $camera_num -thresh 0.4 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070"
+				##	execute_str=$(cat <<EOF
+##$darknet_police_str -c $camera_num -thresh 0.05 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 | 
+##gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("~/jetson-nano-ai-cam/send_http.sh " "\"" \$2 "\" " \$3)} ' &
+##EOF
+
+execute_str=$(cat <<EOF
+nohup $darknet_police_str -c $camera_num -thresh 0.05 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 | 
+gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("~/jetson-nano-ai-cam/send_http.sh " "\"" \$2 "\" " \$3)} ' &>/dev/null &
 EOF
+
 )
 
 
@@ -710,7 +716,7 @@ EOF
 
 		5)
 			clear
-			cd /home/samson/install_yolo/AlexeyAB/darknet
+			cd ~/AlexeyAB/darknet
 			
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -743,7 +749,7 @@ EOF
 
 		6)
 			clear
-			cd /home/samson/install_yolo/AlexeyAB/darknet
+			cd ~/AlexeyAB/darknet
 
 			#needto remove nvjpeg
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -754,22 +760,22 @@ EOF
 			case ${VIDEO_CAMERA_INPUTS[$camera_num,2]} in
 				"RG10")
 
-					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 &"
+					execute_str="$darknet_coco_str \"$v4l2src_pipeline_str -e\" -thresh 0.4 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 &"
 				;;
 				*)
 
-					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\"/home/samson/jetson-nano-ai-cam/send_http.sh\" "'$1 $2'" ) }'"
+					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/\,\W\:/:/g' | awk -F: '{ system (\"~/jetson-nano-ai-cam/send_http.sh\" "'$1 $2'" ) }'"
 
-					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 |  grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/ //g' | sed 's/\,\W/|/g' | awk -F'|' ' {print ("/home/samson/jetson-nano-ai-cam/send_http.sh "\$1" "\$2) | "sh" }  '  
+					#execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 |  grep JETSON_NANO_DETECTION | sed 's/JETSON_NANO_DETECTION\://g' | sed 's/ //g' | sed 's/\,\W/|/g' | awk -F'|' ' {print ("~/jetson-nano-ai-cam/send_http.sh "\$1" "\$2) | "sh" }  '  
 
 					execute_str=$(cat <<EOF
-$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | 
-gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("/home/samson/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} '  &
+$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 | 
+gawk -F: '/JETSON_NANO_DETECTION:[.]*/ { gsub(/,\s\W/, ":"); gsub(/,\s/, ","); system("~/jetson-nano-ai-cam/send_http.sh" " \"" \$2 "\" " \$3)} '  &
 EOF
 )
 
 					##ori
-					##execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix /home/samson/images/d$today -mjpeg_port 8090 -json_port 8070 | grep JETSON_NANO_DETECTION";
+					##execute_str="$darknet_coco_str -c $camera_num -thresh 0.4 -dont_show -prefix ~/images/d$today -mjpeg_port 8090 -json_port 8070 | grep JETSON_NANO_DETECTION";
 
 				;;
 			esac

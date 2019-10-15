@@ -6,7 +6,7 @@
 today=`date +%Y-%m-%d.%H.%M.%S`
 
 clear
-/home/samson/skip_sudo.sh
+#~/skip_sudo.sh
 
 connection_successful=false
 retry_count=0
@@ -49,7 +49,7 @@ do
 				else
 					echo "nmcli con up fail, trying reset USB"
 					if [[ -e $(lsusb | grep Modem) ]]; then
-						lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo /home/samson/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
+						lsusb | awk ' /Modem/ {gsub(/:/,""); system("sudo ~/jetson-nano-ai-cam/usbreset /dev/bus/usb/"$2 "/" $4)}'
 						#modem_id would change as well
 						((modem_id++))
 
@@ -83,7 +83,7 @@ do
 			sudo /root/ngrok/ngrok start -all &	
 			#sleep 1
 			ngrok_domains=$(sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' )
-			sudo python3 /home/samson/jetson-nano-ai-cam/show.py $ngrok_domains
+			sudo python3 ~/jetson-nano-ai-cam/show.py $ngrok_domains
 
 			printf "ngrok restarted\n";
 
@@ -111,11 +111,11 @@ curl \
 	-F 'app_token=42134' \
 	-F 'files=@$2' \
 	-F 'simple_form=1' \
-https://jetson-nano.mail2you.net/server/php/index.php >> /home/samson/jetson-nano-ai-cam/send_http.log
+https://jetson-nano.mail2you.net/server/php/index.php >> ~/jetson-nano-ai-cam/send_http.log
 EOF
 )
 
-echo "$today: $curl_str:$0" >> /home/samson/jetson-nano-ai-cam/send_http.log
+echo "$today: $curl_str:$0" >> ~/jetson-nano-ai-cam/send_http.log
 
 
 #ARGV[2]
@@ -125,6 +125,6 @@ echo "$today: $curl_str:$0" >> /home/samson/jetson-nano-ai-cam/send_http.log
 
 eval $curl_str
 
-echo "" >> /home/samson/jetson-nano-ai-cam/send_http.log
+echo "" >> ~/jetson-nano-ai-cam/send_http.log
 
 echo "$1 $2"
