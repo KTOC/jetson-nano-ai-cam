@@ -7,6 +7,18 @@ myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[
 clear
 ~/skip_sudo.sh
 
+autorun=false;
+if [ "$1" == "autorun" ]; then
+	autorun=true
+fi
+
+quit_darknet=false;
+if [ "$1" == "quit" ]; then
+	quit_darknet=true
+fi
+
+
+
 #Check if mobile device is plugged in, if yes and  not activated, try to activate it
 mobile_device_name=$(nmcli con show | awk ' /mobile_network/ {print $4}')
 if [[ $mobile_device_name == "--" && -e $(lsusb | grep Modem) ]]; then
@@ -20,6 +32,9 @@ fi
 #enable location
 
 modem_id=0
+
+modem_id=$( sudo modem-manager.mmcli -L | awk ' /Modem\// { print $1 }' | awk -F/ '{print $NF}' )
+
 
 if [[ -e $(lsusb | grep Modem) ]]; then
 
@@ -62,6 +77,9 @@ sudo jetson_clocks --show
 
 if (( ${#video_camera_array[@]} == 0 )); then
     echo "No Cameras found" >&2
+
+	##Todo make buzzer sound
+	
     exit 0
 fi
 
@@ -222,6 +240,8 @@ echo "Output ============================";
 
 camera_num="-1"
 
+
+
 #regex=^[0-9]+$
 regex=^[0-9]+$
 
@@ -268,7 +288,18 @@ do
 	printf "o. Shutdown\n"
 
 	printf "\nWhich Camera would you like to use? "
-	read -p "[0-${end_num}]: " -n1 camera_num	
+
+	## autorun, then directly assume it is camera 0
+	if $autorun ; then
+		camera_num="0"
+
+	elif $quit_darknet ; then
+		
+		camera_num="q"
+	else
+		read -p "[0-${end_num}]: " -n1 camera_num	
+	fi
+
 
 	case $camera_num in
 
@@ -277,11 +308,11 @@ do
 			if [[ $post_to_server == true ]]; then
 				post_to_server=false
 				printf "Will not send to server\n";
-				sudo python3 ~/jetson-nano-ai-cam/show.py "Will Not send to server"
+				#sudo python3 ~/jetson-nano-ai-cam/show.py "Will Not send to server"
 			else
 				post_to_server=true
 				printf "Will send to server\n";
-				sudo python3 ~/jetson-nano-ai-cam/show.py "Will send to server"
+				#sudo python3 ~/jetson-nano-ai-cam/show.py "Will send to server"
 			fi
 
 			select_function=-1
@@ -306,15 +337,21 @@ do
 			clear
 			if [[ $(sudo pgrep darknet) == "" ]]; then
 				printf "Darknet process Not found\n";
-				sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet not found"
+				#sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet not found"
 			else
 				sudo pgrep darknet | xargs sudo kill -9
-				sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet killed"
+				#sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet killed"
 				printf "All darknet process killed\n";
 			fi
 
 			select_function=-1
-			continue
+
+			#don't loop if if from para
+			if ! $quit_darknet ; then
+				continue
+			else
+				exit 0;
+			fi
 		;;
 
 
@@ -402,7 +439,7 @@ do
 			sudo /root/ngrok/ngrok start -all &	
 			#sleep 1
 			ngrok_domains=$(sudo tail -4 /root/ngrok/log.txt | awk ' /addr\=/ { gsub(/url=tcp\:\/\/|url=/, ""); print $NF}' )
-			sudo python3 ~/jetson-nano-ai-cam/show.py $ngrok_domains
+			#sudo python3 ~/jetson-nano-ai-cam/show.py $ngrok_domains
 
 			printf "ngrok restarted\n";
 			select_function=-1
@@ -544,11 +581,10 @@ darknet_exe_str+=" \"$v4l2src_pipeline_str\" "
 
 
 select_function="-1"
+
 execute_str=""
 
 printf "\n"
-
-
 
 #--list-ctrls-menus
 ##disable auto exposure 1-disable auto exposure, 3-enable auto exposure
@@ -586,8 +622,13 @@ do
 	printf "7. DEMO MJPG http://$myIPAddress:8090\n"
 	printf "\x1b[0;m"
 
-	
-	read -n1 select_function
+	## autorun, then go directly to YoloV3-Police No Display
+	if $autorun ; then
+		select_function="4"
+	else
+		read -n1 select_function
+	fi
+
 
 	case $select_function in
 		$'\e') 
@@ -623,8 +664,15 @@ do
 				"MJPG")					
 					#v4l2src_display_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} do-timestamp=true ! image/jpeg, width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VIDEO_CAMERA_INPUTS[$camera_num,6]}, framerate=$framerate/1 ! jpegparse ! nvjpegdec ! video/x-raw ! nvvidconv ! 'video/x-raw(memory:NVMM), format=(string)I420' ! nvvidconv ! 'video/x-raw(memory:NVMM), format=(string)NV12' ! nvoverlaysink sync=false async=false"	
 
-					v4l2src_display_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} do-timestamp=true ! image/jpeg, width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VIDEO_CAMERA_INPUTS[$camera_num,6]}, framerate=$framerate/1 ! jpegparse ! nvjpegdec ! video/x-raw ! nvvidconv ! 'video/x-raw(memory:NVMM), format=(string)RGBA' ! nvoverlaysink sync=false async=false"			
+					#working
+					#v4l2src_display_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} do-timestamp=true ! image/jpeg, width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VIDEO_CAMERA_INPUTS[$camera_num,6]}, framerate=$framerate/1 ! jpegparse ! nvjpegdec ! video/x-raw ! nvvidconv ! 'video/x-raw(memory:NVMM), format=(string)RGBA' ! nvoverlaysink sync=false async=false"			
+
+					v4l2src_display_str="v4l2src io-mode=2 device=${VIDEO_CAMERA_INPUTS[$camera_num,0]} do-timestamp=true ! image/jpeg, width=${VIDEO_CAMERA_INPUTS[$camera_num,5]}, height=${VIDEO_CAMERA_INPUTS[$camera_num,6]}, framerate=$framerate/1 ! jpegparse ! jpegdec ! video/x-raw ! nvvidconv ! 'video/x-raw(memory:NVMM), format=(string)I420' ! nvoverlaysink sync=false async=false"		
+
+
 					execute_str="gst-launch-1.0 $v4l2src_display_str -e"
+
+
 				;;
 
 				*)
@@ -647,6 +695,8 @@ do
 		3)
 			clear
 			cd ~/AlexeyAB/darknet
+
+			sudo pgrep darknet | xargs sudo kill -9
 
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -679,6 +729,9 @@ do
 		4)
 			clear
 			cd ~/AlexeyAB/darknet
+
+			sudo pgrep darknet | xargs sudo kill -9
+
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
 
@@ -717,6 +770,8 @@ EOF
 		5)
 			clear
 			cd ~/AlexeyAB/darknet
+
+			sudo pgrep darknet | xargs sudo kill -9
 			
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -750,6 +805,8 @@ EOF
 		6)
 			clear
 			cd ~/AlexeyAB/darknet
+
+			sudo pgrep darknet | xargs sudo kill -9
 
 			#needto remove nvjpeg
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -810,6 +867,88 @@ EOF
 done
 
 
+#############################################
+#below for for checking the darknet process
+
+
+
+runInterval=5 # In seconds
+
+loop() {
+
+  # This is the loop.
+  now=`date +%s`
+
+  if [ -z $last ]; then
+    last=`date +%s`
+  fi
+
+  # Do everything you need the daemon to do.
+  # check if process exists
+
+  #if not, run again
+  #~/jetson-nano-ai-cam/select-camera.sh autorun
+  
+  # Check to see how long we actually need to sleep for. If we want this to run
+  # once a minute and it's taken more than a minute, then we should just run it
+  # anyway.
+  last=`date +%s`
+
+	clear
+	~/skip_sudo.sh
+	#echo "start loop"
+
+	##Actual check
+	darknet_pid=$(pgrep darknet)
+
+	if [ "$darknet_pid" == "" ]; then
+		##darknet not running, need to run again
+		~/jetson-nano-ai-cam/select-camera.sh autorun
+		exit 0	
+	fi
+
+	darknet_virt=$(cat /proc/$darknet_pid/stat | cut -d" " -f23)
+
+	if [ $darknet_virt -ge 14000000000  ]; then
+
+		echo "Consumed too much memory, restart!";
+		
+		sudo pgrep darknet | xargs sudo kill -9
+		printf "All darknet process killed\n";
+		sleep 3
+
+		~/jetson-nano-ai-cam/select-camera.sh autorun
+
+		exit 0
+	fi
+
+	loadavg_1m=$( cat /proc/loadavg | cut -d" " -f1)
+	acceptable_cpuload=4
+
+	if (( $(awk 'BEGIN {print ("'$loadavg_1m'" >= "'$acceptable_cpuload'")}') )); then
+
+		echo "Overloading system, restart!";
+		
+		sudo pgrep darknet | xargs sudo kill -9
+		printf "All darknet process killed\n";
+		sleep 3
+
+		~/jetson-nano-ai-cam/select-camera.sh autorun
+
+		exit 0	
+	fi
+
+
+  # Set the sleep interval
+  if [[ ! $((now-last+runInterval+1)) -lt $((runInterval)) ]]; then
+    sleep $((now-last+runInterval))
+  fi
+
+  # Startover
+  loop
+}
+
+nohup loop &>/dev/null &
 
 
 #eval $darknet_police_str
