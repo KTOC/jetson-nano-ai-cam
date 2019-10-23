@@ -123,7 +123,7 @@ echo "$today: $curl_str:$0" >> ~/jetson-nano-ai-cam/send_http.log
 
 #ARGV[2]
 #clear
-#echo $curl_str
+echo $curl_str
 #printf "\n\n"
 
 eval $curl_str

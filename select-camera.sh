@@ -7,6 +7,23 @@ myIPAddress=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[
 clear
 ~/skip_sudo.sh
 
+
+kill_darknet()
+{
+
+	##Actual check
+	darknet_pid=$(pgrep darknet)
+
+	if [ "$darknet_pid" == "" ]; then
+		##darknet not running, need to run again
+		echo "Darknet not running"
+	else
+		sudo pgrep darknet | xargs sudo kill -9
+	fi
+
+}
+
+
 autorun=false;
 if [ "$1" == "autorun" ]; then
 	autorun=true
@@ -70,9 +87,9 @@ shopt -u nullglob # Turn off nullglob to make sure it doesn't interfere with any
 
 #sudo nvpmodel -q
 #sudo jetson_clocks --store
-sudo jetson_clocks
+#sudo jetson_clocks
 echo 255 | sudo tee /sys/devices/pwm-fan/target_pwm
-sudo jetson_clocks --show
+#sudo jetson_clocks --show
 
 
 if (( ${#video_camera_array[@]} == 0 )); then
@@ -339,7 +356,7 @@ do
 				printf "Darknet process Not found\n";
 				#sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet not found"
 			else
-				sudo pgrep darknet | xargs sudo kill -9
+				kill_darknet
 				#sudo python3 ~/jetson-nano-ai-cam/show.py "Darknet killed"
 				printf "All darknet process killed\n";
 			fi
@@ -427,7 +444,8 @@ do
 		t)
 			clear
 			printf "Sending Test Message\n";
-			~/jetson-nano-ai-cam/send_http.sh "Test from: $myIPAddress" "~/jetson-nano-ai-cam/demo-jetson-nano.jpg";
+			## need to use full path
+			~/jetson-nano-ai-cam/send_http.sh "Test from: $myIPAddress" "$PWD/demo-jetson-nano.jpg";
 
 			select_function=-1
 			continue
@@ -696,7 +714,7 @@ do
 			clear
 			cd ~/AlexeyAB/darknet
 
-			sudo pgrep darknet | xargs sudo kill -9
+			kill_darknet
 
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -730,7 +748,7 @@ do
 			clear
 			cd ~/AlexeyAB/darknet
 
-			sudo pgrep darknet | xargs sudo kill -9
+			kill_darknet
 
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -771,7 +789,7 @@ EOF
 			clear
 			cd ~/AlexeyAB/darknet
 
-			sudo pgrep darknet | xargs sudo kill -9
+			kill_darknet
 			
 			#needto remove nvjpeg
 			#v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -806,7 +824,7 @@ EOF
 			clear
 			cd ~/AlexeyAB/darknet
 
-			sudo pgrep darknet | xargs sudo kill -9
+			kill_darknet
 
 			#needto remove nvjpeg
 			v4l2src_pipeline_str=${v4l2src_pipeline_str//nvjpegdec/jpegdec}
@@ -874,6 +892,9 @@ done
 
 runInterval=5 # In seconds
 
+
+
+
 loop() {
 
   # This is the loop.
@@ -903,17 +924,26 @@ loop() {
 
 	if [ "$darknet_pid" == "" ]; then
 		##darknet not running, need to run again
+		echo "Darknet not found, restart $now" >> ~/jetson-nano-ai-cam/restart-log.log
+
 		~/jetson-nano-ai-cam/select-camera.sh autorun
 		exit 0	
 	fi
+
+	##Set low power
+	sudo nvpmodel -m 1
+	sudo sh -c "echo -1 > /sys/module/usbcore/parameters/autosuspend"
+	printf "\nSet to 5W successfully\n"
 
 	darknet_virt=$(cat /proc/$darknet_pid/stat | cut -d" " -f23)
 
 	if [ $darknet_virt -ge 14000000000  ]; then
 
 		echo "Consumed too much memory, restart!";
+
+		echo "Too much resource, restart $now" >> ~/jetson-nano-ai-cam/restart-log.log
 		
-		sudo pgrep darknet | xargs sudo kill -9
+		kill_darknet
 		printf "All darknet process killed\n";
 		sleep 3
 
@@ -928,8 +958,9 @@ loop() {
 	if (( $(awk 'BEGIN {print ("'$loadavg_1m'" >= "'$acceptable_cpuload'")}') )); then
 
 		echo "Overloading system, restart!";
+		echo "Overload, restart $now" >> ~/jetson-nano-ai-cam/restart-log.log
 		
-		sudo pgrep darknet | xargs sudo kill -9
+		kill_darknet
 		printf "All darknet process killed\n";
 		sleep 3
 
